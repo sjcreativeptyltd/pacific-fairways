@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReleasePage — Style 8: Manifesto & Belief — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Self-hosted Fontshare faces — replaces the original Google Fonts */
+@font-face{font-family:'Zodiak';src:url('../public/fonts/Zodiak_Complete/Fonts/WEB/fonts/Zodiak-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap;}
+@font-face{font-family:'Amulya';src:url('../public/fonts/Amulya_Complete/Fonts/WEB/fonts/Amulya-Variable.woff2') format('woff2');font-weight:300 700;font-display:swap;}
+
+  :root{
+    --font-display:'Zodiak', serif;
+    --font-body:'Amulya', sans-serif;
+  }
+
+  :root { --ink:#1A1A1A; --grove:#5B8C5A; --parchment:#F9F6F0; --stone:#EDEAE3; --border:#E0DBCF; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: var(--font-body); background:var(--parchment); color:var(--ink); font-weight:400; line-height:1.65; }
+
+  .doc-header { background:var(--ink); color:var(--parchment); padding:64px 48px 56px; }
+  .doc-header .eyebrow { font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--grove); display:block; margin-bottom:18px; }
+  .doc-header h1 { font-family: var(--font-display); font-weight:700; font-size:clamp(30px,4.2vw,48px); line-height:1.2; max-width:800px; }
+  .doc-header p { margin-top:20px; max-width:640px; color:#C7C2B5; font-size:16px; }
+
+  .doc-section { padding:56px 48px; border-bottom:1px solid var(--border); }
+  .doc-section.grey { background:var(--stone); }
+  .section-label { font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--grove); margin-bottom:10px; display:block; }
+  .section-title { font-family: var(--font-display); font-weight:700; font-size:26px; margin-bottom:32px; }
+
+  .swatch-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:20px; }
+  .swatch { border:1px solid var(--border); }
+  .swatch-block { height:110px; }
+  .swatch-meta { padding:14px 16px 16px; background:var(--parchment); }
+  .swatch-meta .name { font-weight:700; font-size:15px; }
+  .swatch-meta .hex { font-family:'JetBrains Mono', monospace; font-size:13px; color:#918a78; margin-top:4px; }
+  .swatch-meta .usage { font-size:13px; color:#918a78; margin-top:8px; font-weight:400; }
+
+  .type-row { display:flex; align-items:baseline; gap:32px; padding:22px 0; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .type-row:last-child { border-bottom:none; }
+  .type-meta { font-family:'JetBrains Mono', monospace; font-size:12px; color:#918a78; width:190px; flex-shrink:0; line-height:1.6; }
+  .h-display { font-family: var(--font-display); font-weight:700; }
+  .h1 { font-size:42px; line-height:1.25; }
+  .h2 { font-size:30px; line-height:1.25; }
+  .h3 { font-size:22px; }
+  .body-lg { font-family: var(--font-body); font-weight:400; font-size:18px; line-height:1.7; }
+  .body { font-weight:400; font-size:16px; }
+  .label { font-weight:500; font-size:13px; letter-spacing:0.03em; color:var(--grove); }
+
+  .btn-row { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+  .btn { font-family: var(--font-body); font-weight:500; font-size:15px; padding:15px 30px; border-radius:4px; border:none; cursor:pointer; display:inline-block; }
+  .btn-primary { background:var(--grove); color:var(--parchment); }
+  .btn-block { display:flex; flex-direction:column; align-items:flex-start; }
+  .btn-spec { font-family:'JetBrains Mono', monospace; font-size:12px; color:#918a78; margin-top:14px; }
+
+  .space-row { display:flex; align-items:center; gap:20px; margin-bottom:14px; }
+  .space-bar { background:var(--grove); height:20px; border-radius:2px; }
+  .space-label { font-family:'JetBrains Mono', monospace; font-size:13px; color:#665; width:200px; }
+
+  .component-card { border:1px solid var(--border); margin-bottom:28px; }
+  .component-card .cc-label { font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:#918a78; padding:12px 20px; border-bottom:1px solid var(--border); background:var(--stone); }
+
+  .preview-hero { background:repeating-linear-gradient(115deg,#4a4438 0 46px,#3e3930 46px 92px); color:var(--parchment); padding:100px 40px; text-align:center; }
+  .preview-hero h2 { font-family: var(--font-display); font-weight:700; font-size:clamp(28px,3.8vw,40px); line-height:1.3; max-width:680px; margin:0 auto 18px; }
+
+  .manifesto-block { padding:64px 40px; background:var(--parchment); text-align:center; }
+  .manifesto-words { font-family: var(--font-display); font-weight:700; font-size:clamp(22px,3vw,32px); color:var(--grove); letter-spacing:0.02em; margin-bottom:26px; }
+  .manifesto-words .dim { color:#c9c2b0; }
+  .manifesto-belief { font-family: var(--font-display); font-style:italic; font-size:19px; max-width:600px; margin:0 auto; color:#4a4438; line-height:1.6; }
+
+  .preview-stats { background:var(--stone); display:flex; flex-wrap:wrap; }
+  .stat-item { flex:1 1 160px; text-align:center; padding:36px 16px; }
+  .stat-item .val { font-family: var(--font-display); font-weight:700; font-size:38px; color:var(--ink); display:block; }
+  .stat-item .lbl { font-family: var(--font-body); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; margin-top:8px; display:block; color:#918a78; }
+
+  .quote-block { padding:60px 40px; background:var(--parchment); text-align:center; }
+  .quote-block blockquote { font-family: var(--font-display); font-style:italic; font-size:26px; max-width:640px; margin:0 auto 16px; color:var(--ink); line-height:1.5; }
+  .quote-block blockquote::before, .quote-block blockquote::after { content:'"'; color:var(--grove); font-weight:700; }
+  .quote-block cite { font-family: var(--font-body); font-size:13px; letter-spacing:0.05em; text-transform:uppercase; color:#918a78; font-style:normal; }
+
+  .preview-nav { display:flex; align-items:center; justify-content:space-between; background:var(--parchment); border-bottom:1px solid var(--border); padding:18px 32px; }
+  .preview-nav .wordmark span:first-child { font-family: var(--font-display); font-weight:700; color:var(--ink); }
+  .preview-nav .wordmark span:last-child { font-family: var(--font-body); font-weight:500; color:var(--grove); }
+  .preview-nav .wordmark { font-size:19px; }
+  .preview-nav .phone { color:#918a78; font-size:14px; }
+
+  .preview-form { background:var(--grove); padding:48px 40px; color:var(--parchment); }
+  .preview-form .tagline { font-family: var(--font-display); font-style:italic; font-size:17px; margin-bottom:20px; opacity:0.9; }
+  .preview-form h3 { font-family: var(--font-body); font-weight:500; font-size:24px; margin-bottom:24px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:560px; }
+  .form-grid input { background:rgba(255,255,255,0.12); border:none; border-radius:4px; color:var(--parchment); padding:12px; font-family: var(--font-body); font-size:15px; }
+  .form-grid input::placeholder { color:rgba(249,246,240,0.6); }
+  .form-grid .full { grid-column:1/-1; }
+  .footer-strip { background:var(--grove); color:#D6E3D5; text-align:center; font-family:'JetBrains Mono', monospace; font-size:12px; padding:18px; border-top:1px solid rgba(255,255,255,0.15); }
+
+  table.usage-table { width:100%; border-collapse:collapse; font-size:14px; }
+  table.usage-table th, table.usage-table td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--border); }
+  table.usage-table th { font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; color:#918a78; }
+  .swatch-dot { display:inline-block; width:12px; height:12px; margin-right:8px; vertical-align:middle; border:1px solid rgba(0,0,0,0.15); }
+
+  @media (max-width:720px){ .doc-header,.doc-section{padding-left:24px;padding-right:24px;} .form-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <span class="eyebrow">ReleasePage — Design System</span>
+  <h1>Style 8 — Manifesto &amp; Belief</h1>
+  <p>Mid-market lifestyle / values-led buyer. Purposeful, visionary, brand-forward — the developer has a point of view. Large typographic statements, cycling word manifesto, developer quote block.</p>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">01 — Colour</span>
+  <h2 class="section-title">Palette</h2>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-block" style="background:#1A1A1A;"></div><div class="swatch-meta"><div class="name">Ink</div><div class="hex">#1A1A1A</div><div class="usage">Primary — stat values, wordmark serif half</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#5B8C5A;"></div><div class="swatch-meta"><div class="name">Grove Green</div><div class="hex">#5B8C5A</div><div class="usage">Accent — CTAs, manifesto words, quote marks, footer</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#F9F6F0; border-bottom:1px solid #eee;"></div><div class="swatch-meta"><div class="name">Parchment White</div><div class="hex">#F9F6F0</div><div class="usage">Primary background</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#EDEAE3;"></div><div class="swatch-meta"><div class="name">Warm Stone</div><div class="hex">#EDEAE3</div><div class="usage">Secondary background — stat section</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#F9F6F0; border-bottom:1px solid #eee;"></div><div class="swatch-meta"><div class="name">Body Text</div><div class="hex">#1A1A1A</div><div class="usage">Body copy</div></div></div>
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">02 — Usage Map</span>
+  <h2 class="section-title">Where each colour lands, by page section</h2>
+  <table class="usage-table">
+    <tr><th>Section</th><th>Background</th><th>Text / accents</th></tr>
+    <tr><td>1. Sticky nav</td><td><span class="swatch-dot" style="background:#F9F6F0;"></span>Parchment white</td><td>Hybrid wordmark — serif + sans</td></tr>
+    <tr><td>2. Hero</td><td>Lifestyle image (a moment, not a map)</td><td>Belief-statement headline, light serif, centred</td></tr>
+    <tr><td>MANIFESTO SECTION (replaces/precedes Estate Intro)</td><td><span class="swatch-dot" style="background:#F9F6F0;border:1px solid #ddd;"></span>Parchment white</td><td>Cycling word block in grove green + italic belief statement</td></tr>
+    <tr><td>4. Key stats</td><td><span class="swatch-dot" style="background:#EDEAE3;"></span>Warm stone</td><td>Ink numbers, no colour band — restrained</td></tr>
+    <tr><td>DEVELOPER QUOTE BLOCK (between Lot Detail and Lifestyle)</td><td><span class="swatch-dot" style="background:#F9F6F0;border:1px solid #ddd;"></span>Parchment white</td><td>Large italic pull-quote, grove green quote marks</td></tr>
+    <tr><td>7. Lifestyle</td><td>Alternating image + copy (not a grid)</td><td>2-sentence caption per image</td></tr>
+    <tr><td>8. How to buy</td><td>Parchment white</td><td>Human-renamed steps</td></tr>
+    <tr><td>9. Enquire / footer</td><td><span class="swatch-dot" style="background:#5B8C5A;"></span>Grove green</td><td>Parchment text, developer tagline above contact details</td></tr>
+  </table>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">03 — Typography</span>
+  <h2 class="section-title">Type scale — Zodiak + Amulya</h2>
+  <div class="type-row"><div class="type-meta">H1 / Hero heading (belief)<br>Playfair 700<br>42px / 1.25</div><div class="type-sample h-display h1">Built for the life you actually want to live</div></div>
+  <div class="type-row"><div class="type-meta">H2 / Section heading<br>Playfair 700<br>30px / 1.25</div><div class="type-sample h-display h2">A place to enrich, grow, belong</div></div>
+  <div class="type-row"><div class="type-meta">H3 / Card heading<br>Playfair 700<br>22px</div><div class="type-sample h-display h3">Stage 2 — Now Releasing</div></div>
+  <div class="type-row"><div class="type-meta">Body large<br>DM Sans 400<br>18px / 1.7</div><div class="type-sample body-lg">We believe a home should be more than four walls — it should be a place that lets you grow into the life you're building.</div></div>
+  <div class="type-row"><div class="type-meta">Body<br>DM Sans 400<br>16px</div><div class="type-sample body">Stage 2 releases 24 lots close to the town centre and existing trails.</div></div>
+  <div class="type-row"><div class="type-meta">Label<br>DM Sans 500 · Grove<br>13px</div><div class="type-sample label">Now Releasing — Stage Two</div></div>
+  <div style="margin-top:8px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#918a78;">
+    Load: self-hosted — Zodiak (display) + Amulya (body), see @font-face at top of file.<br>
+    Zodiak carries every belief statement and pull-quote; Amulya carries all body copy and UI. Serif = philosophy, sans = function.
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">04 — Buttons</span>
+  <h2 class="section-title">CTA styles</h2>
+  <div class="btn-row">
+    <div class="btn-block"><button class="btn btn-primary">Enquire Now</button><div class="btn-spec">Only style — solid grove green, white text</div></div>
+  </div>
+  <div style="margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#665; line-height:1.8;">
+    border-radius: 4px · text-transform: none (sentence case) · font-weight: 500 · padding: 15px 30px<br>
+    Rule: buttons stay quiet and functional — the manifesto and quote block are where the boldness lives, not the CTA.
+  </div>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">05 — Spacing &amp; Structure</span>
+  <h2 class="section-title">Rhythm tokens</h2>
+  <div class="space-row"><div class="space-bar" style="width:8px;"></div><div class="space-label">4px — micro</div></div>
+  <div class="space-row"><div class="space-bar" style="width:20px;"></div><div class="space-label">10px — element gap</div></div>
+  <div class="space-row"><div class="space-bar" style="width:60px;"></div><div class="space-label">30px — inner padding</div></div>
+  <div class="space-row"><div class="space-bar" style="width:140px;"></div><div class="space-label">64–100px — section padding</div></div>
+  <div style="margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#665;">
+    The Manifesto Section and Developer Quote Block are the two signature moments — give both generous vertical space and never crowd them with surrounding content.
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">06 — Component Previews</span>
+  <h2 class="section-title">Applied to the ReleasePage structure</h2>
+
+  <div class="component-card">
+    <div class="cc-label">Sticky nav (hybrid wordmark)</div>
+    <div class="preview-nav"><span class="wordmark"><span>Willow</span> <span>Grove</span></span><span class="phone">07 XXXX XXXX</span></div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Hero (belief statement, not product statement)</div>
+    <div class="preview-hero"><h2>Built for the life you actually want to live</h2></div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Manifesto section (unique to this style — cycling words + belief statement)</div>
+    <div class="manifesto-block">
+      <div class="manifesto-words">Willow Grove is a place to <span style="color:#5B8C5A;">ENRICH</span> <span class="dim">·</span> GROW <span class="dim">·</span> BELONG <span class="dim">·</span> THRIVE</div>
+      <div class="manifesto-belief">"We believe you truly deserve a place that offers everything you need to thrive — not just a block of land, but a foundation for the life you're building."</div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Key stats band (restrained, no colour block)</div>
+    <div class="preview-stats">
+      <div class="stat-item"><span class="val">24</span><span class="lbl">Lots in Stage 2</span></div>
+      <div class="stat-item"><span class="val">450m²</span><span class="lbl">Min lot size</span></div>
+      <div class="stat-item"><span class="val">$420k</span><span class="lbl">Price from</span></div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Developer quote block (unique to this style)</div>
+    <div class="quote-block">
+      <blockquote>We believe you truly deserve a place that offers everything you need to thrive</blockquote>
+      <cite>— James Whitfield, Developer</cite>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Enquiry form / footer</div>
+    <div class="preview-form">
+      <div class="tagline">"A place to enrich, grow, and belong."</div>
+      <h3>Enquire Now</h3>
+      <div class="form-grid">
+        <input type="text" placeholder="First Name">
+        <input type="text" placeholder="Last Name">
+        <input type="email" placeholder="Email">
+        <input type="tel" placeholder="Phone">
+        <div class="full"><button class="btn btn-primary" style="width:100%; margin-top:8px; background:var(--ink);">Send Enquiry</button></div>
+      </div>
+    </div>
+    <div class="footer-strip">RELEASEPAGE — A PRODUCT BY S&amp;J CREATIVE</div>
+  </div>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">07 — Guardrails</span>
+  <h2 class="section-title">Do / Don't</h2>
+  <table class="usage-table">
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Open the hero with a belief statement, not a product statement</td><td>Lead with price, lot count, or status badges in the headline</td></tr>
+    <tr><td>Include the cycling word manifesto block as Section 2</td><td>Replace it with a standard estate intro paragraph</td></tr>
+    <tr><td>Include one developer pull-quote between Lot Detail and Lifestyle</td><td>Skip the quote block or attribute it vaguely</td></tr>
+    <tr><td>Rename How to Buy steps in a human, first-person voice</td><td>Use generic step labels like "Enquire / Select / Build"</td></tr>
+    <tr><td>Keep the stat section restrained — no colour band</td><td>Add a bold colour block to the stats, which undercuts the quiet confidence</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

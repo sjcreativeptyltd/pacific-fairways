@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReleasePage — Style 4: Natural & Organic — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Self-hosted Fontshare faces — replaces the original Google Fonts */
+@font-face{font-family:'Erode';src:url('../public/fonts/Erode_Complete/Fonts/WEB/fonts/Erode-Variable.woff2') format('woff2');font-weight:300 700;font-display:swap;}
+@font-face{font-family:'GeneralSans';src:url('../public/fonts/GeneralSans_Complete/Fonts/WEB/fonts/GeneralSans-Variable.woff2') format('woff2');font-weight:200 700;font-display:swap;}
+
+  :root{
+    --font-display:'Erode', serif;
+    --font-body:'GeneralSans', sans-serif;
+  }
+
+  :root { --earth:#4A3728; --sage:#8B9E6E; --parchment:#F5F0E8; --linen:#E8DFD0; --body:#2E2018; --border:#DDD1BC; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: var(--font-body); background:var(--parchment); color:var(--body); font-weight:400; line-height:1.65; }
+
+  .doc-header { background:var(--earth); color:var(--parchment); padding:64px 48px 56px; }
+  .doc-header .eyebrow { font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--sage); display:block; margin-bottom:18px; }
+  .doc-header h1 { font-family: var(--font-display); font-weight:700; font-size:clamp(32px,4.5vw,52px); line-height:1.15; max-width:800px; }
+  .doc-header p { margin-top:22px; max-width:620px; color:#D8CBB6; font-size:16px; }
+
+  .doc-section { padding:56px 48px; border-bottom:1px solid var(--border); }
+  .doc-section.grey { background:var(--linen); }
+  .section-label { font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--earth); margin-bottom:10px; display:block; }
+  .section-title { font-family: var(--font-display); font-weight:700; font-size:28px; margin-bottom:32px; }
+
+  .swatch-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:20px; }
+  .swatch { border:1px solid var(--border); }
+  .swatch-block { height:110px; }
+  .swatch-meta { padding:14px 16px 16px; background:var(--parchment); }
+  .swatch-meta .name { font-weight:700; font-size:15px; }
+  .swatch-meta .hex { font-family:'JetBrains Mono', monospace; font-size:13px; color:#8a7e6a; margin-top:4px; }
+  .swatch-meta .usage { font-size:13px; color:#8a7e6a; margin-top:8px; font-weight:400; }
+
+  .type-row { display:flex; align-items:baseline; gap:32px; padding:22px 0; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .type-row:last-child { border-bottom:none; }
+  .type-meta { font-family:'JetBrains Mono', monospace; font-size:12px; color:#8a7e6a; width:190px; flex-shrink:0; line-height:1.6; }
+  .h-display { font-family: var(--font-display); font-weight:700; }
+  .h1 { font-size:50px; line-height:1.15; }
+  .h2 { font-size:36px; line-height:1.2; }
+  .h3 { font-size:26px; }
+  .stat { font-family: var(--font-display); font-size:56px; color:var(--parchment); background:var(--earth); padding:8px 16px; display:inline-block; }
+  .body-lg { font-family: var(--font-body); font-weight:400; font-size:18px; line-height:1.7; }
+  .body { font-family: var(--font-body); font-weight:400; font-size:16px; }
+  .label { font-weight:700; font-size:13px; letter-spacing:0.03em; color:var(--sage); }
+
+  .btn-row { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+  .btn { font-family: var(--font-body); font-weight:700; font-size:15px; padding:15px 30px; border-radius:4px; border:none; cursor:pointer; display:inline-block; }
+  .btn-primary { background:var(--sage); color:var(--parchment); }
+  .btn-outline { background:transparent; color:var(--earth); border:2px solid var(--earth); }
+  .btn-block { display:flex; flex-direction:column; align-items:flex-start; }
+  .btn-spec { font-family:'JetBrains Mono', monospace; font-size:12px; color:#8a7e6a; margin-top:14px; }
+
+  .space-row { display:flex; align-items:center; gap:20px; margin-bottom:14px; }
+  .space-bar { background:var(--sage); height:22px; border-radius:2px; }
+  .space-label { font-family:'JetBrains Mono', monospace; font-size:13px; color:#665; width:200px; }
+
+  .component-card { border:1px solid var(--border); margin-bottom:28px; }
+  .component-card .cc-label { font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:#8a7e6a; padding:12px 20px; border-bottom:1px solid var(--border); background:var(--linen); }
+
+  .preview-hero { background:linear-gradient(rgba(50,30,15,0.50), rgba(50,30,15,0.50)), repeating-linear-gradient(110deg,#7a6a4e 0 46px,#6d5f47 46px 92px); color:var(--parchment); padding:100px 40px; text-align:center; }
+  .preview-hero h2 { font-family: var(--font-display); font-weight:700; font-size:clamp(30px,4vw,44px); line-height:1.2; max-width:700px; margin:0 auto 18px; }
+  .preview-hero .sub { font-size:16px; margin-bottom:32px; opacity:0.9; }
+
+  .preview-stats { background:var(--earth); display:flex; flex-wrap:wrap; }
+  .stat-item { flex:1 1 160px; text-align:center; padding:36px 16px; border-right:1px solid rgba(245,240,232,0.15); }
+  .stat-item:last-child { border-right:none; }
+  .stat-item .val { font-family: var(--font-display); font-weight:700; font-size:38px; color:var(--parchment); display:block; }
+  .stat-item .lbl { font-family: var(--font-body); font-size:12px; text-transform:uppercase; letter-spacing:0.06em; margin-top:8px; display:block; color:#C7B89C; }
+
+  .preview-bullets { padding:44px 40px; background:var(--parchment); }
+  .bullet-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px 40px; margin-top:24px; }
+  .bullet-item { display:flex; align-items:flex-start; gap:12px; font-size:15px; }
+  .bullet-item .mark { color:var(--sage); font-weight:700; }
+
+  .preview-nav { display:flex; align-items:center; justify-content:space-between; background:var(--parchment); border-bottom:1px solid var(--border); padding:18px 32px; }
+  .preview-nav .wordmark { font-family: var(--font-display); color:var(--earth); font-weight:700; font-size:19px; }
+  .preview-nav .phone { color:#8a7e6a; font-size:14px; }
+
+  .preview-form { background:var(--earth); padding:48px 40px; color:var(--parchment); }
+  .preview-form h3 { font-family: var(--font-display); font-weight:700; font-size:26px; margin-bottom:24px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:560px; }
+  .form-grid input { background:rgba(245,240,232,0.08); border:1px solid rgba(245,240,232,0.25); border-radius:4px; color:var(--parchment); padding:12px; font-family: var(--font-body); font-size:15px; }
+  .form-grid input::placeholder { color:rgba(245,240,232,0.55); }
+  .form-grid .full { grid-column:1/-1; }
+  .footer-strip { background:var(--earth); color:#C7B89C; text-align:center; font-family:'JetBrains Mono', monospace; font-size:12px; padding:18px; border-top:1px solid rgba(245,240,232,0.15); }
+
+  table.usage-table { width:100%; border-collapse:collapse; font-size:14px; }
+  table.usage-table th, table.usage-table td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--border); }
+  table.usage-table th { font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; color:#8a7e6a; }
+  .swatch-dot { display:inline-block; width:12px; height:12px; margin-right:8px; vertical-align:middle; border:1px solid rgba(0,0,0,0.15); }
+
+  @media (max-width:720px){ .doc-header,.doc-section{padding-left:24px;padding-right:24px;} .bullet-grid,.form-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <span class="eyebrow">ReleasePage — Design System</span>
+  <h1>Style 4 — Natural &amp; Organic</h1>
+  <p>Lifestyle / acreage. Grounded, unhurried, connected to land — for buyers leaving the city behind. Earthy palette, serif headings with generous line-height, printed-sign stat treatment.</p>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">01 — Colour</span>
+  <h2 class="section-title">Palette</h2>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-block" style="background:#4A3728;"></div><div class="swatch-meta"><div class="name">Dark Earth</div><div class="hex">#4A3728</div><div class="usage">Primary — stat band, footer, hero overlay</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#8B9E6E;"></div><div class="swatch-meta"><div class="name">Sage</div><div class="hex">#8B9E6E</div><div class="usage">Accent — CTAs, bullet marks, step circles</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#F5F0E8; border-bottom:1px solid #eee;"></div><div class="swatch-meta"><div class="name">Parchment</div><div class="hex">#F5F0E8</div><div class="usage">Primary background</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#E8DFD0;"></div><div class="swatch-meta"><div class="name">Raw Linen</div><div class="hex">#E8DFD0</div><div class="usage">Secondary background — alternating sections</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#F5F0E8; border-bottom:1px solid #eee;"></div><div class="swatch-meta"><div class="name">Body Text</div><div class="hex">#2E2018</div><div class="usage">Body copy</div></div></div>
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">02 — Usage Map</span>
+  <h2 class="section-title">Where each colour lands, by page section</h2>
+  <table class="usage-table">
+    <tr><th>Section</th><th>Background</th><th>Text / accents</th></tr>
+    <tr><td>1. Sticky nav</td><td><span class="swatch-dot" style="background:#F5F0E8;"></span>Parchment</td><td>Serif wordmark + landscape mark</td></tr>
+    <tr><td>2. Hero</td><td>Image + earth overlay (50%)</td><td>Parchment heading, sage CTA</td></tr>
+    <tr><td>3. Estate intro</td><td><span class="swatch-dot" style="background:#F5F0E8;border:1px solid #ddd;"></span>Parchment</td><td>Serif heading, unhurried line-height</td></tr>
+    <tr><td>4. Key stats</td><td><span class="swatch-dot" style="background:#4A3728;"></span>Dark earth</td><td>Parchment numbers — "printed sign" feel</td></tr>
+    <tr><td>5. Location highlights</td><td><span class="swatch-dot" style="background:#F5F0E8;border:1px solid #ddd;"></span>Parchment</td><td>Acreage-relevant bullets — km, bus routes, bore access</td></tr>
+    <tr><td>6. Lot / stage detail</td><td><span class="swatch-dot" style="background:#E8DFD0;"></span>Raw linen</td><td>Sage CTA button</td></tr>
+    <tr><td>7. Lifestyle / renders</td><td><span class="swatch-dot" style="background:#F5F0E8;border:1px solid #ddd;"></span>Parchment</td><td>Paddocks, timber, corrugated iron imagery</td></tr>
+    <tr><td>8. How to buy</td><td><span class="swatch-dot" style="background:#F5F0E8;border:1px solid #ddd;"></span>Parchment</td><td>Sage numbered circles, hand-drawn connector lines</td></tr>
+    <tr><td>9. Enquire / footer</td><td><span class="swatch-dot" style="background:#4A3728;"></span>Dark earth</td><td>Parchment form fields, sage submit</td></tr>
+  </table>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">03 — Typography</span>
+  <h2 class="section-title">Type scale — Erode + GeneralSans</h2>
+  <div class="type-row"><div class="type-meta">H1 / Hero heading<br>Playfair 700<br>50px / 1.15</div><div class="type-sample h-display h1">Space to breathe. Land to build on.</div></div>
+  <div class="type-row"><div class="type-meta">H2 / Section heading<br>Playfair 700<br>36px / 1.2</div><div class="type-sample h-display h2">Room to grow, land to love</div></div>
+  <div class="type-row"><div class="type-meta">H3 / Card heading<br>Playfair 700<br>26px</div><div class="type-sample h-display h3">Stage One — Now Selling</div></div>
+  <div class="type-row"><div class="type-meta">Stat value<br>Playfair 700<br>on earth chip</div><div class="type-sample stat">12</div></div>
+  <div class="type-row"><div class="type-meta">Body large<br>Lato 400<br>18px / 1.7</div><div class="type-sample body-lg">Twelve acreage lots set among rolling paddocks — space for horses, sheds, and the life you've been waiting to build.</div></div>
+  <div class="type-row"><div class="type-meta">Body<br>Lato 400<br>16px / 1.65</div><div class="type-sample body">Bore water access and sealed road frontage on every lot. Titles issued now.</div></div>
+  <div class="type-row"><div class="type-meta">Label<br>Lato 700 · Sage<br>13px</div><div class="type-sample label">Titles issued — ready to build</div></div>
+  <div style="margin-top:8px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#8a7e6a;">
+    Load: self-hosted — Erode (display) + GeneralSans (body), see @font-face at top of file.<br>
+    Serif headings always paired with generous line-height (1.15–1.2) — unhurried, never tight.
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">04 — Buttons</span>
+  <h2 class="section-title">CTA styles</h2>
+  <div class="btn-row">
+    <div class="btn-block"><button class="btn btn-primary">Enquire Today</button><div class="btn-spec">Primary — solid sage, parchment text</div></div>
+    <div class="btn-block"><button class="btn btn-outline">View the Land</button><div class="btn-spec">Secondary — earth outline</div></div>
+  </div>
+  <div style="margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#665; line-height:1.8;">
+    border-radius: 4px · text-transform: none (sentence case) · font-weight: 700 · padding: 15px 30px<br>
+    Rule: subtle roundness only — never sharp, never pill-shaped. Feels hand-finished, not manufactured.
+  </div>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">05 — Spacing &amp; Structure</span>
+  <h2 class="section-title">Rhythm tokens</h2>
+  <div class="space-row"><div class="space-bar" style="width:8px;"></div><div class="space-label">4px — micro</div></div>
+  <div class="space-row"><div class="space-bar" style="width:20px;"></div><div class="space-label">10px — element gap</div></div>
+  <div class="space-row"><div class="space-bar" style="width:64px;"></div><div class="space-label">32px — inner padding</div></div>
+  <div class="space-row"><div class="space-bar" style="width:130px;"></div><div class="space-label">60–90px — section padding</div></div>
+  <div style="margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#665;">
+    Consider a subtle paper/linen grain texture overlay (low opacity, CSS noise or subtle background-image) on Parchment sections to reinforce the tactile, hand-crafted feel.
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">06 — Component Previews</span>
+  <h2 class="section-title">Applied to the ReleasePage structure</h2>
+
+  <div class="component-card">
+    <div class="cc-label">Sticky nav</div>
+    <div class="preview-nav"><span class="wordmark">Fig Tree Acres</span><span class="phone">07 XXXX XXXX</span></div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Hero</div>
+    <div class="preview-hero">
+      <h2>Space to breathe. Land to build on.</h2>
+      <div class="sub">12 acreage lots — Titles Issued, Ready to Build</div>
+      <button class="btn btn-primary">Enquire Today</button>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Key stats band (printed-sign treatment)</div>
+    <div class="preview-stats">
+      <div class="stat-item"><span class="val">12</span><span class="lbl">Lots available</span></div>
+      <div class="stat-item"><span class="val">2ha+</span><span class="lbl">Average lot size</span></div>
+      <div class="stat-item"><span class="val">Bore</span><span class="lbl">Water access</span></div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Location highlights (acreage-specific)</div>
+    <div class="preview-bullets">
+      <h3 class="h-display h3" style="font-size:22px;">Living further out, without going without</h3>
+      <div class="bullet-grid">
+        <div class="bullet-item"><span class="mark">✦</span>15km to nearest town centre</div>
+        <div class="bullet-item"><span class="mark">✦</span>School bus route at the front gate</div>
+        <div class="bullet-item"><span class="mark">✦</span>Bore and dam access on every lot</div>
+        <div class="bullet-item"><span class="mark">✦</span>Sealed road frontage throughout</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Enquiry form / footer</div>
+    <div class="preview-form">
+      <h3>Register Your Interest</h3>
+      <div class="form-grid">
+        <input type="text" placeholder="First Name">
+        <input type="text" placeholder="Last Name">
+        <input type="email" placeholder="Email">
+        <input type="tel" placeholder="Phone">
+        <div class="full"><button class="btn btn-primary" style="width:100%; margin-top:8px;">Send Enquiry</button></div>
+      </div>
+    </div>
+    <div class="footer-strip">RELEASEPAGE — A PRODUCT BY S&amp;J CREATIVE</div>
+  </div>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">07 — Guardrails</span>
+  <h2 class="section-title">Do / Don't</h2>
+  <table class="usage-table">
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Lead stats with acreage-relevant facts (bore, bus routes, sealed road)</td><td>Default to generic price/lot-size stats without land context</td></tr>
+    <tr><td>Use generous serif line-height throughout</td><td>Set Erode tight or condensed</td></tr>
+    <tr><td>Keep imagery earthy — paddocks, timber, corrugated iron</td><td>Use urban, tech, or corporate-feeling photography</td></tr>
+    <tr><td>Use hand-drawn-style connector lines in How to Buy</td><td>Use sharp geometric numbered circles</td></tr>
+    <tr><td>Treat the stat band like a printed property sign</td><td>Make the stat band feel like a SaaS dashboard metric</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

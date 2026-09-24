@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------
+   Fonts and design tokens are NOT declared here.
+
+   They come from the active style preset in src/lib/styles.ts, which
+   BaseLayout.astro emits into the document head as @font-face rules plus a
+   :root token block. That keeps one style's two families in the build and
+   leaves the other eighteen out of it.
+
+   To restyle a build, change ACTIVE_STYLE in src/lib/styles.ts.
+   The ten rendered references live in 0-Style Guides/.
+
+   Tokens available to author against:
+     --font-display   --font-body
+     --color-primary  --color-accent
+     --color-bg       --color-bg-alt   --color-text
+     --radius-btn
+   Tailwind bridges these as font-display/font-body, bg-bg, text-text,
+   text-primary, bg-accent, rounded-btn and so on — see tailwind.config.mjs.
+   ------------------------------------------------------- */
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  color: var(--color-primary);
+  line-height: 1.15;
+}

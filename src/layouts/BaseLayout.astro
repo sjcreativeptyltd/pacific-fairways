@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { getStyle, fontFaceCss, tokenCss, ACTIVE_STYLE } from '../lib/styles';
+
+interface Props {
+  title: string;
+  description?: string;
+  /**
+   * Override the style for this page. Only the dev-only preview route at
+   * /preview/[style] passes it; a client build leaves it unset so every page
+   * takes ACTIVE_STYLE.
+   *
+   * Note there is deliberately no ?style= query override: `output: 'static'`
+   * strips search params from Astro.url even in dev, so it would silently do
+   * nothing.
+   */
+  styleId?: number;
+}
+
+const { title, description = '', styleId } = Astro.props;
+
+const style = getStyle(styleId ?? ACTIVE_STYLE);
+
+// Only this style's two families are emitted, so a client build never ships
+// the other eighteen.
+const css = `${fontFaceCss(style)}\n${tokenCss(style)}`;
+---
+<!doctype html>
+<html lang="en" data-style={style.id}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+
+    {/* Preload the two faces actually used, so first paint is not delayed by
+        the round trip that discovering them in CSS would otherwise cost. */}
+    {[style.display, style.body].map((f) =>
+      f.files.map(({ file }) => (
+        <link
+          rel="preload"
+          href={`/fonts/${f.dir}/Fonts/WEB/fonts/${file}.woff2`}
+          as="font"
+          type="font/woff2"
+          crossorigin
+        />
+      )),
+    )}
+
+    <style set:html={css}></style>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      import { initLenis } from '../lib/lenis';
+      initLenis();
+    </script>
+  </body>
+</html>

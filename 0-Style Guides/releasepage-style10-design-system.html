@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReleasePage — Style 10: Big Backyard & Coastal Lifestyle — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Self-hosted Fontshare faces — replaces the original Google Fonts */
+@font-face{font-family:'Panchang';src:url('../public/fonts/Panchang_Complete/Fonts/WEB/fonts/Panchang-Variable.woff2') format('woff2');font-weight:200 800;font-display:swap;}
+@font-face{font-family:'Pally';src:url('../public/fonts/Pally_Complete/Fonts/WEB/fonts/Pally-Variable.woff2') format('woff2');font-weight:400 700;font-display:swap;}
+
+  :root{
+    --font-display:'Panchang', sans-serif;
+    --font-body:'Pally', sans-serif;
+  }
+
+  :root { --harbour:#1B4B6B; --sky:#62B6CB; --white:#FFFFFF; --seamist:#F0F7FA; --body:#1A2A35; --border:#DCEAEE; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: var(--font-body); background:var(--white); color:var(--body); font-weight:400; line-height:1.6; }
+
+  .doc-header { background:var(--harbour); color:var(--white); padding:64px 48px 56px; }
+  .doc-header .eyebrow { font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--sky); display:block; margin-bottom:18px; }
+  .doc-header h1 { font-weight:800; font-size:clamp(32px,4.5vw,54px); line-height:1.1; max-width:800px; }
+  .doc-header p { margin-top:20px; max-width:640px; color:#B9D6E1; font-size:17px; }
+
+  .doc-section { padding:56px 48px; border-bottom:1px solid var(--border); }
+  .doc-section.grey { background:var(--seamist); }
+  .section-label { font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--harbour); margin-bottom:10px; display:block; }
+  .section-title { font-weight:800; font-size:28px; margin-bottom:32px; }
+
+  .swatch-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:20px; }
+  .swatch { border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .swatch-block { height:110px; }
+  .swatch-meta { padding:14px 16px 16px; background:var(--white); }
+  .swatch-meta .name { font-weight:800; font-size:15px; }
+  .swatch-meta .hex { font-family:'JetBrains Mono', monospace; font-size:13px; color:#6d8894; margin-top:4px; }
+  .swatch-meta .usage { font-size:13px; color:#6d8894; margin-top:8px; font-weight:400; }
+
+  .type-row { display:flex; align-items:baseline; gap:32px; padding:20px 0; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .type-row:last-child { border-bottom:none; }
+  .type-meta { font-family:'JetBrains Mono', monospace; font-size:12px; color:#6d8894; width:190px; flex-shrink:0; line-height:1.6; }
+  .h-display { font-weight:800; }
+  .h1 { font-size:48px; line-height:1.1; }
+  .h2 { font-size:34px; line-height:1.15; }
+  .h3 { font-size:24px; }
+  .stat { font-size:52px; color:var(--harbour); font-weight:800; }
+  .body-lg { font-weight:400; font-size:19px; }
+  .body { font-weight:400; font-size:16px; }
+  .label { font-weight:700; font-size:13px; color:var(--sky); }
+
+  .btn-row { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+  .btn { font-family: var(--font-body); font-weight:800; font-size:15px; padding:15px 32px; border-radius:30px; border:none; cursor:pointer; display:inline-block; }
+  .btn-primary { background:var(--sky); color:var(--harbour); }
+  .btn-outline { background:transparent; color:var(--harbour); border:2px solid var(--harbour); }
+  .btn-block { display:flex; flex-direction:column; align-items:flex-start; }
+  .btn-spec { font-family:'JetBrains Mono', monospace; font-size:12px; color:#6d8894; margin-top:14px; }
+
+  .space-row { display:flex; align-items:center; gap:20px; margin-bottom:14px; }
+  .space-bar { background:var(--sky); height:22px; border-radius:11px; }
+  .space-label { font-family:'JetBrains Mono', monospace; font-size:13px; color:#555; width:200px; }
+
+  .component-card { border:1px solid var(--border); margin-bottom:28px; border-radius:14px; overflow:hidden; }
+  .component-card .cc-label { font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.06em; color:#6d8894; padding:12px 20px; border-bottom:1px solid var(--border); background:var(--seamist); }
+
+  .preview-hero { background:repeating-linear-gradient(120deg,#3f7f96 0 46px,#356c81 46px 92px); color:var(--white); padding:100px 40px; text-align:center; }
+  .preview-hero h2 { font-weight:800; font-size:clamp(28px,4vw,42px); line-height:1.15; max-width:680px; margin:0 auto 18px; }
+  .preview-hero .sub { font-size:16px; margin-bottom:32px; opacity:0.9; }
+
+  .word-block { padding:60px 40px; background:var(--seamist); text-align:center; }
+  .word-block .words { font-weight:800; font-size:clamp(22px,3.2vw,34px); color:var(--sky); line-height:1.5; }
+  .word-block .words span.dim { color:#a8c9d2; }
+
+  .preview-stats { background:var(--white); display:flex; flex-wrap:wrap; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .stat-item { flex:1 1 160px; text-align:center; padding:36px 16px; }
+  .stat-item .val { font-weight:800; font-size:38px; color:var(--harbour); display:block; }
+  .stat-item .lbl { font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; margin-top:8px; display:block; color:var(--sky); }
+
+  .brochure-cta { padding:48px 40px; background:var(--seamist); text-align:center; }
+  .brochure-cta h3 { font-weight:800; font-size:24px; margin-bottom:12px; color:var(--harbour); }
+  .brochure-cta p { color:#557788; margin-bottom:22px; }
+
+  .preview-nav { display:flex; align-items:center; justify-content:space-between; background:var(--white); border-bottom:1px solid var(--border); padding:18px 32px; }
+  .preview-nav .wordmark { color:var(--harbour); font-weight:800; font-size:18px; }
+  .preview-nav .phone { color:#6d8894; font-size:14px; }
+
+  .preview-form { background:var(--harbour); padding:48px 40px; color:var(--white); }
+  .preview-form h3 { font-weight:800; font-size:26px; margin-bottom:24px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:560px; }
+  .form-grid input { background:rgba(255,255,255,0.12); border:none; border-radius:30px; color:var(--white); padding:14px 20px; font-family: var(--font-body); font-size:15px; }
+  .form-grid input::placeholder { color:rgba(255,255,255,0.6); }
+  .form-grid .full { grid-column:1/-1; }
+  .dual-logo { display:flex; justify-content:center; align-items:center; gap:24px; padding:16px; background:var(--harbour); border-top:1px solid rgba(255,255,255,0.15); }
+  .dual-logo span { color:#B9D6E1; font-family:'JetBrains Mono', monospace; font-size:12px; }
+  .dual-logo .rule { width:1px; height:16px; background:rgba(255,255,255,0.3); }
+  .footer-strip { background:var(--harbour); color:#8FB3C1; text-align:center; font-family:'JetBrains Mono', monospace; font-size:12px; padding:18px; }
+
+  table.usage-table { width:100%; border-collapse:collapse; font-size:14px; }
+  table.usage-table th, table.usage-table td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--border); }
+  table.usage-table th { font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; color:#6d8894; }
+  .swatch-dot { display:inline-block; width:12px; height:12px; margin-right:8px; vertical-align:middle; border-radius:4px; border:1px solid rgba(0,0,0,0.15); }
+
+  @media (max-width:720px){ .doc-header,.doc-section{padding-left:24px;padding-right:24px;} .form-grid{grid-template-columns:1fr;} }
+
+  /* Headings take the display face. This style originally used a single
+     family throughout, so this rule is what creates the pairing. */
+  h1, h2, h3, .type-sample.h-display { font-family: var(--font-display); }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <span class="eyebrow">ReleasePage — Design System</span>
+  <h1>Style 10 — Big Backyard &amp; Coastal Lifestyle</h1>
+  <p>Regional coastal / sea-change buyer. Relaxed, generous, freedom-focused — space, sky, and sea as the emotional drivers. Fully rounded UI, typographic lifestyle word block, secondary brochure conversion path.</p>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">01 — Colour</span>
+  <h2 class="section-title">Palette</h2>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-block" style="background:#1B4B6B;"></div><div class="swatch-meta"><div class="name">Deep Harbour</div><div class="hex">#1B4B6B</div><div class="usage">Primary — nav, footer, stat values, form background</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#62B6CB;"></div><div class="swatch-meta"><div class="name">Sky Blue</div><div class="hex">#62B6CB</div><div class="usage">Accent — CTAs, word block typography, stat labels</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#FFFFFF; border-bottom:1px solid #eee;"></div><div class="swatch-meta"><div class="name">White</div><div class="hex">#FFFFFF</div><div class="usage">Primary background</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#F0F7FA;"></div><div class="swatch-meta"><div class="name">Sea Mist</div><div class="hex">#F0F7FA</div><div class="usage">Secondary background — word block, brochure CTA</div></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#FFFFFF; border-bottom:1px solid #eee;"></div><div class="swatch-meta"><div class="name">Body Text</div><div class="hex">#1A2A35</div><div class="usage">Body copy</div></div></div>
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">02 — Usage Map</span>
+  <h2 class="section-title">Where each colour lands, by page section</h2>
+  <table class="usage-table">
+    <tr><th>Section</th><th>Background</th><th>Text / accents</th></tr>
+    <tr><td>1. Sticky nav</td><td><span class="swatch-dot" style="background:#FFFFFF;"></span>White</td><td>Rounded sans wordmark, approachable never corporate</td></tr>
+    <tr><td>2. Hero</td><td>Coastal lifestyle image (golden hour) — not a typical aerial</td><td>Freedom-framing headline</td></tr>
+    <tr><td>LIFESTYLE WORD BLOCK (added, after Estate Intro)</td><td><span class="swatch-dot" style="background:#F0F7FA;"></span>Sea mist</td><td>Typography-only cycling word band, sky blue on sea mist</td></tr>
+    <tr><td>4. Key stats</td><td><span class="swatch-dot" style="background:#FFFFFF;border:1px solid #ddd;"></span>White</td><td>Includes block frontage as a key stat alongside price/size</td></tr>
+    <tr><td>5. Location highlights</td><td>White</td><td>Coastal-specific — beach, boat ramp, esplanade, fish and chip shop</td></tr>
+    <tr><td>7. Lifestyle</td><td>White</td><td>Real coastal photography — pier, kayak, sprinkler, outdoor shower</td></tr>
+    <tr><td>BROCHURE CTA BLOCK (added, before How to Buy)</td><td><span class="swatch-dot" style="background:#F0F7FA;"></span>Sea mist</td><td>Secondary conversion path — "Download Brochure"</td></tr>
+    <tr><td>9. Enquire / footer</td><td><span class="swatch-dot" style="background:#1B4B6B;"></span>Deep harbour</td><td>Fully rounded fields, dual logo lockup, social links prominent</td></tr>
+  </table>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">03 — Typography</span>
+  <h2 class="section-title">Type scale — Panchang + Pally</h2>
+  <div class="type-row"><div class="type-meta">H1 / Hero heading<br>800 · Sentence case<br>48px / 1.1</div><div class="type-sample h-display h1">Big blocks. Bigger life.</div></div>
+  <div class="type-row"><div class="type-meta">H2 / Section heading<br>800<br>34px / 1.15</div><div class="type-sample h-display h2">Space to build the life you've imagined</div></div>
+  <div class="type-row"><div class="type-meta">H3 / Card heading<br>800<br>24px</div><div class="type-sample h-display h3">Stage 1 — Now Selling</div></div>
+  <div class="type-row"><div class="type-meta">Stat value<br>800 · Harbour<br>52px</div><div class="type-sample stat">800m²</div></div>
+  <div class="type-row"><div class="type-meta">Body large<br>400<br>19px / 1.6</div><div class="type-sample body-lg">Big enough for a pool, a trampoline, a boat, a veggie patch, a shed — or all of the above.</div></div>
+  <div class="type-row"><div class="type-meta">Body<br>400<br>16px</div><div class="type-sample body">Stage 1 releases 22 lots, 5 minutes from the esplanade.</div></div>
+  <div class="type-row"><div class="type-meta">Label<br>700 · Sky<br>13px</div><div class="type-sample label">5 min to the beach</div></div>
+  <div style="margin-top:8px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#6d8894;">
+    Load: self-hosted — Panchang (display) + Pally (body), see @font-face at top of file.<br>
+    Panchang carries the headings, Pally the body and UI — both open and easygoing, so the pairing reads as one voice rather than two.
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">04 — Buttons</span>
+  <h2 class="section-title">CTA styles</h2>
+  <div class="btn-row">
+    <div class="btn-block"><button class="btn btn-primary">Enquire Now</button><div class="btn-spec">Primary — solid sky blue, fully rounded (30px)</div></div>
+    <div class="btn-block"><button class="btn btn-outline">Download Brochure</button><div class="btn-spec">Secondary — used in the brochure CTA block</div></div>
+  </div>
+  <div style="margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#555; line-height:1.8;">
+    border-radius: 30px (fully rounded) · text-transform: none · font-weight: 800 · padding: 15px 32px<br>
+    Rule: this is the only style with fully-rounded pill buttons AND fully-rounded form inputs — the roundness is consistent across every interactive element.
+  </div>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">05 — Spacing &amp; Structure</span>
+  <h2 class="section-title">Rhythm tokens</h2>
+  <div class="space-row"><div class="space-bar" style="width:8px;"></div><div class="space-label">4px — micro</div></div>
+  <div class="space-row"><div class="space-bar" style="width:20px;"></div><div class="space-label">10px — element gap</div></div>
+  <div class="space-row"><div class="space-bar" style="width:60px;"></div><div class="space-label">30px — inner padding</div></div>
+  <div class="space-row"><div class="space-bar" style="width:130px;"></div><div class="space-label">60–90px — section padding</div></div>
+  <div style="margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#555;">
+    The Lifestyle Word Block is typography only — no images. Give it as much vertical breathing room as the hero itself.
+  </div>
+</div>
+
+<div class="doc-section grey">
+  <span class="section-label">06 — Component Previews</span>
+  <h2 class="section-title">Applied to the ReleasePage structure</h2>
+
+  <div class="component-card">
+    <div class="cc-label">Sticky nav</div>
+    <div class="preview-nav"><span class="wordmark">Seabreeze Point</span><span class="phone">07 XXXX XXXX</span></div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Hero (coastal lifestyle, not aerial)</div>
+    <div class="preview-hero">
+      <h2>Big blocks. Bigger life.</h2>
+      <div class="sub">Stage 1 Now Selling — 22 Lots From 600m²</div>
+      <button class="btn btn-primary">Enquire Now</button>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Lifestyle word block (unique to this style — typography only)</div>
+    <div class="word-block">
+      <div class="words">coast <span class="dim">·</span> space <span class="dim">·</span> freedom <span class="dim">·</span> fresh air <span class="dim">·</span> your backyard <span class="dim">·</span> your rules</div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Key stats band (frontage included)</div>
+    <div class="preview-stats">
+      <div class="stat-item"><span class="val">22</span><span class="lbl">Lots available</span></div>
+      <div class="stat-item"><span class="val">600m²+</span><span class="lbl">Min lot size</span></div>
+      <div class="stat-item"><span class="val">16m</span><span class="lbl">Min frontage</span></div>
+      <div class="stat-item"><span class="val">5min</span><span class="lbl">To the beach</span></div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Brochure CTA block (unique to this style — secondary conversion path)</div>
+    <div class="brochure-cta">
+      <h3>Everything you need to know, in one place</h3>
+      <p>Not ready to call? Grab the full brochure and take your time.</p>
+      <button class="btn btn-outline">Download Brochure</button>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="cc-label">Enquiry form / footer (dual logo + social links)</div>
+    <div class="preview-form">
+      <h3>Register Your Interest</h3>
+      <div class="form-grid">
+        <input type="text" placeholder="First Name">
+        <input type="text" placeholder="Last Name">
+        <input type="email" placeholder="Email">
+        <input type="tel" placeholder="Phone">
+        <div class="full"><button class="btn btn-primary" style="width:100%; margin-top:8px;">Send Enquiry</button></div>
+      </div>
+    </div>
+    <div class="dual-logo"><span>DEVELOPER LOGO</span><div class="rule"></div><span>AGENT / MARKETER LOGO</span> <span>·</span> <span>FACEBOOK</span> <span>·</span> <span>INSTAGRAM</span></div>
+    <div class="footer-strip">RELEASEPAGE — A PRODUCT BY S&amp;J CREATIVE</div>
+  </div>
+</div>
+
+<div class="doc-section">
+  <span class="section-label">07 — Guardrails</span>
+  <h2 class="section-title">Do / Don't</h2>
+  <table class="usage-table">
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Open the hero with a coastal lifestyle image — beach, estuary, golden hour</td><td>Use a standard estate aerial as the hero image</td></tr>
+    <tr><td>Include the Lifestyle Word Block as pure typography, no images</td><td>Add photos or icons to the word block — it should read as text alone</td></tr>
+    <tr><td>Include block frontage as a key stat alongside size and price</td><td>Omit frontage — it matters specifically to this buyer</td></tr>
+    <tr><td>Add the Brochure CTA Block as a secondary path before How to Buy</td><td>Rely on a single CTA path — this buyer often isn't ready to call yet</td></tr>
+    <tr><td>Keep every button and input fully rounded (30px)</td><td>Mix in sharp or lightly-rounded elements — consistency of roundness matters here</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

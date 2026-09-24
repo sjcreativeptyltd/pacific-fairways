@@ -1,0 +1,84 @@
+---
+/**
+ * Dev-only style preview: /preview/1 … /preview/10 render the real page in
+ * each of the ten directions, for putting options in front of a client.
+ *
+ * getStaticPaths returns nothing in a production build, so these pages are
+ * never emitted — which also keeps them from referencing all twenty families
+ * and defeating the font pruning in astro.config.mjs.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StickyNav from '../../components/nav/StickyNav.astro';
+import PageSections from '../../components/PageSections.astro';
+import { STYLES, getStyle } from '../../lib/styles';
+
+export function getStaticPaths() {
+  if (!import.meta.env.DEV) return [];
+  return Object.values(STYLES).map((s) => ({ params: { style: String(s.id) } }));
+}
+
+const style = getStyle(Number(Astro.params.style));
+const ids = Object.keys(STYLES).map(Number).sort((a, b) => a - b);
+---
+<BaseLayout title={`Preview — ${style.name}`} styleId={style.id}>
+  <nav class="rp-preview-bar">
+    <span class="rp-preview-label">
+      {style.id}. {style.name}
+      <em>{style.display.family} + {style.body.family} · {style.market}</em>
+    </span>
+    <span class="rp-preview-links">
+      {ids.map((id) => (
+        <a href={`/preview/${id}`} aria-current={id === style.id ? 'page' : undefined}>{id}</a>
+      ))}
+    </span>
+  </nav>
+
+  <StickyNav />
+  <PageSections />
+</BaseLayout>
+
+<style>
+  /* Preview chrome only — never ships, since this route is not built. */
+  .rp-preview-bar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 8px 16px;
+    background: #141d29;
+    color: #e9edf1;
+    font: 500 12.5px/1.4 ui-sans-serif, system-ui, sans-serif;
+  }
+  .rp-preview-label em {
+    font-style: normal;
+    opacity: 0.6;
+    margin-left: 10px;
+  }
+  .rp-preview-links {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .rp-preview-links a {
+    display: grid;
+    place-items: center;
+    min-width: 26px;
+    padding: 4px 6px;
+    border: 1px solid #36424f;
+    border-radius: 4px;
+    color: #c3ccd6;
+    text-decoration: none;
+  }
+  .rp-preview-links a:hover {
+    background: #2f3b4a;
+    color: #fff;
+  }
+  .rp-preview-links a[aria-current='page'] {
+    background: #e8500a;
+    border-color: #e8500a;
+    color: #fff;
+  }
+</style>

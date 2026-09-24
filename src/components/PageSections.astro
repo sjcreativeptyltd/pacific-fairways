@@ -1,0 +1,64 @@
+---
+/**
+ * Renders this client's sections in canonical reading order.
+ *
+ * The four standard sections always appear; the rest are filtered by
+ * SELECTED_SECTIONS in src/lib/sections.ts. A section that was not selected is
+ * omitted entirely — no empty block, no placeholder.
+ *
+ * Both the client page and the dev-only style preview route render through
+ * here, so there is one composition to keep correct rather than two.
+ */
+import EnquireFooter from './sections/EnquireFooter.astro';
+import EstateIntro from './sections/EstateIntro.astro';
+import FAQs from './sections/FAQs.astro';
+import Hero from './sections/Hero.astro';
+import HowToBuy from './sections/HowToBuy.astro';
+import InteractiveMasterplan from './sections/InteractiveMasterplan.astro';
+import KeyStats from './sections/KeyStats.astro';
+import LifestyleRenders from './sections/LifestyleRenders.astro';
+import LocationHighlights from './sections/LocationHighlights.astro';
+import LotStageDetail from './sections/LotStageDetail.astro';
+import Masterplan from './sections/Masterplan.astro';
+import NeighbourhoodAmenities from './sections/NeighbourhoodAmenities.astro';
+
+import {
+  resolveSections,
+  SELECTED_SECTIONS,
+  type OptionalSection,
+  type SectionId,
+} from '../lib/sections';
+
+interface Props {
+  /**
+   * Override the client's selection. Only the dev-only preview route passes
+   * this; a client build leaves it unset and takes SELECTED_SECTIONS.
+   */
+  selected?: readonly OptionalSection[];
+}
+
+const { selected = SELECTED_SECTIONS } = Astro.props;
+
+const COMPONENTS: Record<SectionId, any> = {
+  'hero': Hero,
+  'estate-intro': EstateIntro,
+  'key-stats': KeyStats,
+  'location-highlights': LocationHighlights,
+  'neighbourhood-amenities': NeighbourhoodAmenities,
+  'masterplan': Masterplan,
+  'interactive-masterplan': InteractiveMasterplan,
+  'lot-stage-detail': LotStageDetail,
+  'faqs': FAQs,
+  'gallery': LifestyleRenders,
+  'how-to-buy': HowToBuy,
+  'enquire-footer': EnquireFooter,
+};
+
+const sections = resolveSections(selected);
+---
+{
+  sections.map((id) => {
+    const Section = COMPONENTS[id];
+    return <Section />;
+  })
+}
