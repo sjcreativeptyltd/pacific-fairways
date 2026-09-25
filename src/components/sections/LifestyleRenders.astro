@@ -1,7 +1,97 @@
 ---
-// LifestyleRenders — mirrors the numbered PAGE STRUCTURE in releasepage-prompt-code.md.
-// Fill in per-client copy, media and layout here.
+// LifestyleRenders — lifestyle gallery, asymmetric bento grid. Optional,
+// renders only when selected ("gallery" in Q1 Field 9).
+import { Image } from 'astro:assets';
+import fairwayDusk from '../../assets/images/lifestyle/fairway-dusk.jpg';
+import plate03 from '../../assets/images/lifestyle/plate-03.jpg';
+import plate04 from '../../assets/images/lifestyle/plate-04.jpg';
+import plate05 from '../../assets/images/lifestyle/plate-05.jpg';
+import plate06 from '../../assets/images/lifestyle/plate-06.jpg';
+
+const plates = [
+  { image: fairwayDusk, alt: 'Fairway at dusk', tag: 'Plate 02 — Fairway at Dusk' },
+  { image: plate03, alt: 'Pacific Fairways lifestyle', tag: 'Plate 03' },
+  { image: plate04, alt: 'Pacific Fairways lifestyle', tag: 'Plate 04' },
+  { image: plate05, alt: 'Pacific Fairways lifestyle', tag: 'Plate 05' },
+  { image: plate06, alt: 'Pacific Fairways lifestyle', tag: 'Plate 06' },
+];
 ---
-<section id="lifestylerenders" class="w-full">
-  <!-- LifestyleRenders content -->
+
+<section id="gallery" class="gallery w-full" data-reveal-group>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow on-light">Lifestyle</span>
+      <h2>Life, wide open.</h2>
+    </div>
+    <div class="gallery-grid">
+      {plates.map((p) => (
+        <div class="plate plate-gallery reveal">
+          <div class="plate-corner"></div>
+          <Image src={p.image} alt={p.alt} width={1000} height={700} loading="lazy" />
+          <span class="plate-tag">{p.tag}</span>
+        </div>
+      ))}
+    </div>
+  </div>
 </section>
+
+<style>
+  .gallery {
+    background: var(--color-bg);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 120px;
+    gap: 18px;
+  }
+  .gallery-grid .plate:nth-child(1) {
+    grid-column: span 4;
+    grid-row: span 3;
+  }
+  .gallery-grid .plate:nth-child(2) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .gallery-grid .plate:nth-child(3) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .gallery-grid .plate:nth-child(4) {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+  .gallery-grid .plate:nth-child(5) {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+  /* a distinct phone-native composition — a full-bleed lead photo, a paired
+     duo, two more bands — not the desktop bento simply squeezed to squares */
+  @media (max-width: 760px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 118px;
+      gap: 14px;
+    }
+    .gallery-grid .plate:nth-child(1) {
+      grid-column: 1 / -1;
+      grid-row: span 3;
+    }
+    .gallery-grid .plate:nth-child(2) {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+    .gallery-grid .plate:nth-child(3) {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+    .gallery-grid .plate:nth-child(4) {
+      grid-column: 1 / -1;
+      grid-row: span 2;
+    }
+    .gallery-grid .plate:nth-child(5) {
+      grid-column: 1 / -1;
+      grid-row: span 2;
+    }
+  }
+</style>

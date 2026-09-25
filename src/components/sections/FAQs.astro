@@ -1,8 +1,189 @@
 ---
 // FAQs — optional, renders only when selected in Q1 Field 9.
-// Structure per 0-Style Guides/0-releasepage-prompt-design-styles.md.
-// Fill in per-client questions and answers here.
 ---
-<section id="faqs" class="w-full">
-  <!-- FAQs content -->
+
+<section id="faqs" class="faqs w-full" data-reveal-group>
+  <div class="wrap faq-layout">
+    <div class="faq-head-col reveal">
+      <span class="eyebrow on-light">Questions</span>
+      <h2>Before you enquire.</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item reveal"><summary>Can I build with any builder?<span class="plus"></span></summary><p>Yes, you're free to choose your own registered builder, subject to our design guidelines.</p></details>
+      <details class="faq-item reveal"><summary>How much deposit is required to secure a lot?<span class="plus"></span></summary><p>A holding deposit secures your preferred lot while contracts are prepared — contact us for current terms.</p></details>
+      <details class="faq-item reveal"><summary>Is finance required before I can put down a deposit?<span class="plus"></span></summary><p>No, you can secure a lot first and finalise finance during the standard cooling-off or settlement period.</p></details>
+      <details class="faq-item reveal"><summary>Are there any covenants on minimum house size?<span class="plus"></span></summary><p>Yes, given the acreage-style lots, there are minimum build requirements to maintain the look and feel of the estate — full details available on request.</p></details>
+      <details class="faq-item reveal"><summary>Is Pacific Fairways connected to town water and sewer, or is it on tank/septic?<span class="plus"></span></summary><p>Pacific Fairways is fully connected to town water and sewer — no tanks or septic systems required.</p></details>
+      <details class="faq-item reveal"><summary>What are the fencing requirements?<span class="plus"></span></summary><p>Boundary fencing requirements are outlined in our design guidelines — our sales team can talk you through what applies to each lot.</p></details>
+    </div>
+  </div>
 </section>
+
+<style>
+  .faqs {
+    background: var(--color-bg-alt);
+  }
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 760px) {
+    .faq-layout {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+  .faq-head-col {
+    position: sticky;
+    top: calc(92px + env(safe-area-inset-top, 0px));
+  }
+  @media (max-width: 760px) {
+    .faq-head-col {
+      position: static;
+    }
+  }
+  .faq-head-col h2 {
+    margin-top: 10px;
+    font-size: clamp(26px, 3vw, 36px);
+  }
+  .faq-list {
+    border-top: 1px solid var(--color-hairline, rgba(0, 0, 0, 0.15));
+    max-width: 760px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--color-hairline, rgba(0, 0, 0, 0.15));
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--color-primary);
+    transition: color 0.3s ease, transform 0.3s var(--ease, ease);
+  }
+  .faq-item summary:hover {
+    color: var(--color-ink, var(--color-primary));
+    transform: translateX(4px);
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary .plus {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    position: relative;
+  }
+  .faq-item summary:hover .plus::before,
+  .faq-item summary:hover .plus::after {
+    background: var(--color-accent);
+  }
+  .faq-item summary .plus::before,
+  .faq-item summary .plus::after {
+    content: '';
+    position: absolute;
+    background: var(--color-primary);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: background 0.3s ease;
+  }
+  .faq-item summary .plus::before {
+    width: 14px;
+    height: 1.6px;
+  }
+  .faq-item summary .plus::after {
+    width: 1.6px;
+    height: 14px;
+    transition: transform 0.18s ease, background 0.3s ease;
+  }
+  .faq-item[open] summary .plus::after {
+    transform: translate(-50%, -50%) rotate(90deg) scale(0);
+  }
+  .faq-item p {
+    padding: 0 4px 24px;
+    font-size: 15.5px;
+    line-height: 1.7;
+    max-width: 64ch;
+    color: var(--color-text);
+    opacity: 0.9;
+    overflow: hidden;
+    transition: height 0.38s var(--ease, ease), opacity 0.3s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-item p,
+    .faq-item summary,
+    .faq-item summary .plus::before,
+    .faq-item summary .plus::after {
+      transition: none;
+    }
+    .faq-item summary:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const items = document.querySelectorAll<HTMLDetailsElement>('.faq-item');
+    if (!items.length) return;
+    const reduceMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return; // native instant open/close is fine without motion
+
+    items.forEach((item) => {
+      const summary = item.querySelector('summary');
+      const panel = item.querySelector('p');
+      if (!summary || !panel) return;
+
+      summary.addEventListener('click', (e) => {
+        if (item.dataset.animating === '1') {
+          e.preventDefault();
+          return;
+        }
+        e.preventDefault();
+        item.dataset.animating = '1';
+        if (item.hasAttribute('open')) {
+          const startH = panel.scrollHeight;
+          panel.style.height = startH + 'px';
+          panel.style.opacity = '1';
+          panel.getBoundingClientRect();
+          requestAnimationFrame(() => {
+            panel.style.height = '0px';
+            panel.style.opacity = '0';
+          });
+          panel.addEventListener('transitionend', function onEnd(ev) {
+            if (ev.propertyName !== 'height') return;
+            panel.removeEventListener('transitionend', onEnd);
+            item.removeAttribute('open');
+            panel.style.height = '';
+            delete item.dataset.animating;
+          });
+        } else {
+          item.setAttribute('open', '');
+          const targetH = panel.scrollHeight;
+          panel.style.height = '0px';
+          panel.style.opacity = '0';
+          panel.getBoundingClientRect();
+          requestAnimationFrame(() => {
+            panel.style.height = targetH + 'px';
+            panel.style.opacity = '1';
+          });
+          panel.addEventListener('transitionend', function onEnd(ev) {
+            if (ev.propertyName !== 'height') return;
+            panel.removeEventListener('transitionend', onEnd);
+            panel.style.height = 'auto';
+            delete item.dataset.animating;
+          });
+        }
+      });
+    });
+  })();
+</script>

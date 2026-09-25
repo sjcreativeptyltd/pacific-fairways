@@ -1,7 +1,510 @@
 ---
-// Hero — mirrors the numbered PAGE STRUCTURE in releasepage-prompt-code.md.
-// Fill in per-client copy, media and layout here.
+// Hero — a locked scroll-scrub narrative. The page cannot scroll while this
+// is active — wheel/touch/keyboard input is captured and drives the video
+// instead, forward and backward. Fragments of copy surface one at a time as
+// the footage advances; the full headline + CTA arrive last, as the payoff.
+// Once fully scrubbed forward, a further push unlocks the page and it
+// continues normally; scrolling back up to the very top re-locks it.
+//
+// Reduced motion never engages the lock at all — the resolved final state
+// (headline, subhead, CTA) is what CSS shows at rest, and the page scrolls
+// completely normally. A visitor is never trapped here.
 ---
-<section id="hero" class="w-full">
-  <!-- Hero content -->
+
+<section id="hero" class="hero w-full">
+  <video
+    class="hero-video"
+    id="heroVideo"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="/hero-poster.jpg"
+    aria-hidden="true"
+  >
+    <source src="/hero.mp4" type="video/mp4" />
+  </video>
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-scrim" aria-hidden="true"></div>
+
+  <div class="hero-stage" id="heroStage">
+    <div class="wrap narrative-beat" data-beat="badge">
+      <span class="hero-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+        Selling From the Plan
+      </span>
+    </div>
+    <div class="wrap narrative-beat" data-beat="s1">
+      <p class="narrative-line">Twenty acreage-style lots at Springwood.</p>
+    </div>
+    <div class="wrap narrative-beat" data-beat="s2">
+      <p class="narrative-line">Moments from Pacific Fairway Golf Course.</p>
+    </div>
+    <div class="wrap narrative-beat" data-beat="s3">
+      <p class="narrative-line">Selling from the plan, from $1.2m.</p>
+    </div>
+    <div class="wrap hero-final" data-beat="final">
+      <span class="hero-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+        Selling From the Plan
+      </span>
+      <h1>Acreage living, right on&nbsp;the&nbsp;fairway.</h1>
+      <p class="hero-sub">Selling From the Plan — <b>From $1.2m.</b> Twenty acreage-style lots at Springwood, moments from Pacific Fairway Golf Course.</p>
+      <div class="hero-actions">
+        <a class="btn btn-outline-dark" href="#enquire-footer">Enquire Now</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-hint" id="heroHint" aria-hidden="true">
+    <span>Scroll</span>
+    <svg width="14" height="18" viewBox="0 0 14 18"><path d="M7 1 L7 17 M2 12 L7 17 L12 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="hero-progress" id="heroProgress" aria-hidden="true">
+    <div class="hero-progress-fill" id="heroProgressFill"></div>
+  </div>
 </section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    color: var(--color-on-ink, var(--color-bg));
+    height: 100dvh;
+    padding-block: 0;
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform-origin: center center;
+  }
+  .hero-video.is-source {
+    opacity: 0; /* stays decoding, drawn to canvas instead */
+  }
+  .hero-canvas {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform-origin: center center;
+  }
+  .hero-canvas.is-active {
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video {
+      display: none;
+    }
+  }
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      180deg,
+      rgba(48, 47, 40, 0.15) 0%,
+      rgba(48, 47, 40, 0.1) 38%,
+      rgba(48, 47, 40, 0.72) 100%
+    );
+  }
+
+  .hero-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hero-stage .wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 76px;
+    top: auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-btn);
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-on-ink, var(--color-bg));
+  }
+  .hero-badge svg {
+    flex: none;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 6vw, 64px);
+    line-height: 1.08;
+    max-width: 14ch;
+    margin-top: 26px;
+    color: var(--color-on-ink, var(--color-bg));
+  }
+  .hero-sub {
+    font-family: var(--font-body);
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    margin-top: 22px;
+    letter-spacing: 0.02em;
+    color: var(--color-on-ink, var(--color-bg));
+    max-width: 32ch;
+  }
+  .hero-sub b {
+    font-weight: 600;
+    color: var(--color-accent-light, var(--color-accent));
+  }
+  .hero-actions {
+    margin-top: 38px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    pointer-events: auto;
+  }
+
+  /* narrative fragments: hidden at rest, shown one at a time by JS */
+  .narrative-beat {
+    opacity: 0;
+  }
+  .narrative-line {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(24px, 4vw, 40px);
+    line-height: 1.2;
+    color: var(--color-on-ink, var(--color-bg));
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    max-width: 16ch;
+  }
+  .hero-final {
+    opacity: 1;
+  }
+
+  .hero-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .hero-hint.is-visible {
+    opacity: 1;
+  }
+  .hero-hint svg {
+    animation: hero-hint-bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes hero-hint-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(5px);
+      opacity: 1;
+    }
+  }
+  .hero-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    z-index: 4;
+    background: rgba(255, 255, 255, 0.16);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .hero-progress.is-visible {
+    opacity: 1;
+  }
+  .hero-progress-fill {
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent-light, var(--color-accent)),
+      var(--color-bg)
+    );
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-hint,
+    .hero-progress {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const hero = document.getElementById('hero');
+    const video = document.getElementById('heroVideo') as HTMLVideoElement | null;
+    const canvas = document.getElementById('heroCanvas') as HTMLCanvasElement | null;
+    const stage = document.getElementById('heroStage');
+    const hint = document.getElementById('heroHint');
+    const progressWrap = document.getElementById('heroProgress');
+    const progressFill = document.getElementById('heroProgressFill');
+    if (!hero || !video || !canvas || !stage) return;
+
+    const reduceMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const ctx = canvas.getContext('2d');
+    video.removeAttribute('autoplay');
+    video.removeAttribute('loop');
+    video.pause();
+
+    // A video that's never actually been played won't reliably accept/hold a
+    // currentTime seek in some browsers — priming with a brief play()+pause()
+    // wakes the decoder up so scrubbing actually sticks.
+    let primed = false;
+    function prime() {
+      if (primed) return;
+      primed = true;
+      const p = video!.play();
+      if (p && p.then) {
+        p.then(() => video!.pause()).catch(() => {});
+      } else {
+        video!.pause();
+      }
+    }
+    if (video.readyState >= 2) prime();
+    else video.addEventListener('loadeddata', prime, { once: true });
+
+    function drawFrame() {
+      if (!video!.videoWidth) return;
+      if (canvas!.width !== video!.videoWidth || canvas!.height !== video!.videoHeight) {
+        canvas!.width = video!.videoWidth;
+        canvas!.height = video!.videoHeight;
+      }
+      try {
+        ctx!.drawImage(video!, 0, 0, canvas!.width, canvas!.height);
+      } catch (e) {}
+    }
+    function activateCanvas() {
+      canvas!.classList.add('is-active');
+      video!.classList.add('is-source');
+      drawFrame();
+    }
+    if (video.readyState >= 2) activateCanvas();
+    else video.addEventListener('loadeddata', activateCanvas, { once: true });
+
+    // Direct assignment every frame, no queue: a "wait for 'seeked' before
+    // allowing the next seek" version jams permanently whenever a no-op seek
+    // (0 -> 0) fails to fire 'seeked' at all in some browsers.
+    video.addEventListener('seeked', drawFrame);
+    function seekTo(t: number) {
+      if (!video!.duration) return;
+      t = Math.max(0, Math.min(video!.duration, t));
+      try {
+        video!.currentTime = t;
+      } catch (e) {}
+    }
+
+    // ---- narrative beats ----
+    function byBeat(name: string) {
+      return stage!.querySelector<HTMLElement>(`[data-beat="${name}"]`);
+    }
+    const beats = [
+      { el: byBeat('badge'), start: 0.02, end: 0.24 },
+      { el: byBeat('s1'), start: 0.22, end: 0.44 },
+      { el: byBeat('s2'), start: 0.42, end: 0.64 },
+      { el: byBeat('s3'), start: 0.62, end: 0.84 },
+    ];
+    const finalEl = byBeat('final');
+
+    function windowed(p: number, start: number, end: number) {
+      if (p <= start || p >= end) return 0;
+      const span = end - start,
+        fadeIn = start + span * 0.25,
+        fadeOut = end - span * 0.25;
+      if (p < fadeIn) return (p - start) / (fadeIn - start);
+      if (p > fadeOut) return 1 - (p - fadeOut) / (end - fadeOut);
+      return 1;
+    }
+    function rise(p: number, start: number, end: number) {
+      if (p <= start) return 0;
+      if (p >= end) return 1;
+      return (p - start) / (end - start);
+    }
+    function applyBeat(el: HTMLElement | null, o: number) {
+      if (!el) return;
+      el.style.opacity = String(o);
+      el.style.transform = `translateY(${(1 - o) * 16}px) scale(${0.97 + o * 0.03})`;
+      el.style.filter = `blur(${(1 - o) * 6}px)`;
+    }
+    // Hide the resting "final" state now that JS owns the sequence, so it
+    // doesn't flash visible before the first animation frame runs.
+    applyBeat(finalEl, 0);
+
+    // ---- scroll lock ----
+    let locked = false;
+    let lockedScrollY = 0;
+    function engageLock() {
+      if (locked) return;
+      locked = true;
+      lockedScrollY = window.scrollY;
+      const b = document.body.style;
+      b.position = 'fixed';
+      b.top = -lockedScrollY + 'px';
+      b.left = '0';
+      b.right = '0';
+      b.width = '100%';
+      b.overscrollBehavior = 'none';
+      window.__lenis?.stop();
+      if (hint) hint.classList.add('is-visible');
+      if (progressWrap) progressWrap.classList.add('is-visible');
+      window.addEventListener('wheel', onWheel, { passive: false });
+      window.addEventListener('touchstart', onTouchStart, { passive: true });
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('keydown', onKeyDown);
+    }
+    function releaseLock(landAtHeroTop: boolean) {
+      if (!locked) return;
+      locked = false;
+      const b = document.body.style;
+      b.position = '';
+      b.top = '';
+      b.left = '';
+      b.right = '';
+      b.width = '';
+      b.overscrollBehavior = '';
+      // Forces a synchronous reflow so the browser recomputes layout/paint
+      // immediately rather than leaving a stale compositor frame around from
+      // the position:fixed state — a known class of bug on this kind of
+      // fixed-then-static toggle.
+      void document.body.offsetHeight;
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKeyDown);
+      const y = landAtHeroTop ? 0 : hero!.offsetHeight;
+      // Lenis tracks its own scroll target internally; a raw window.scrollTo()
+      // here would leave it out of sync, so it fights back (and briefly
+      // renders content in the wrong place) on the next wheel tick. It also
+      // has to be started again *before* scrollTo — calling scrollTo while
+      // still stopped is a silent no-op.
+      if (window.__lenis) {
+        window.__lenis.start();
+        // force: true because isStopped isn't guaranteed to have flipped
+        // synchronously from the start() call just above.
+        window.__lenis.scrollTo(y, { immediate: true, force: true });
+      } else {
+        window.scrollTo(0, y);
+      }
+      // The jump to `y` isn't necessarily painted on the very next tick (Lenis
+      // applies it on its own rAF), so the re-lock-on-scroll-to-top listener
+      // below could otherwise catch a transient scrollY near 0 right after
+      // unlocking and immediately re-lock. Give it a moment to settle first.
+      unlockedAt = performance.now();
+    }
+    let unlockedAt = 0;
+
+    let target = 0;
+    let current = 0;
+    let started = false;
+    let touchY = 0;
+    // ~3s clip — kept brisk on purpose so the lock doesn't overstay its welcome.
+    const scrubDistance = 730; // px of input needed to cover the full video
+
+    function addDelta(d: number) {
+      const next = target + d / scrubDistance;
+      if (next > 1 && locked) {
+        target = 1;
+        releaseLock(false);
+        return;
+      }
+      target = Math.max(0, Math.min(1, next));
+      if (target > 0.001) started = true;
+    }
+    function onWheel(e: WheelEvent) {
+      addDelta(e.deltaY);
+      e.preventDefault();
+    }
+    function onTouchStart(e: TouchEvent) {
+      touchY = (e.touches[0] && e.touches[0].clientY) || 0;
+    }
+    function onTouchMove(e: TouchEvent) {
+      const y = (e.touches[0] && e.touches[0].clientY) || touchY;
+      const d = touchY - y;
+      touchY = y;
+      addDelta(d);
+      e.preventDefault();
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        addDelta(220);
+        e.preventDefault();
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        addDelta(-220);
+        e.preventDefault();
+      } else if (e.key === 'Tab') {
+        releaseLock(false); // never trap keyboard focus
+      }
+    }
+
+    // Re-lock (resuming from the end) if the visitor scrolls back up to the
+    // very top of the page, i.e. back into the hero.
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (locked) return;
+        if (performance.now() - unlockedAt < 600) return; // settling period, see releaseLock
+        if (window.scrollY <= 2) {
+          engageLock();
+          target = 1;
+        }
+      },
+      { passive: true },
+    );
+
+    function frame() {
+      current += (target - current) * 0.18;
+      seekTo(current * (video!.duration || 0));
+      drawFrame(); // best-effort immediate draw; the 'seeked' listener catches the rest
+
+      const scale = 1 + current * 0.05;
+      canvas!.style.transform = `scale(${scale})`;
+      video!.style.transform = `scale(${scale})`;
+
+      beats.forEach((b) => applyBeat(b.el, windowed(current, b.start, b.end)));
+      applyBeat(finalEl, rise(current, 0.84, 1));
+
+      if (hint) hint.style.opacity = started ? '0' : '1';
+      if (progressFill) progressFill.style.transform = `scaleX(${current})`;
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    engageLock();
+  })();
+</script>

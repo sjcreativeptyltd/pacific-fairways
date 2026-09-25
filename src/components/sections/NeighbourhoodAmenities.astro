@@ -1,7 +1,114 @@
 ---
-// NeighbourhoodAmenities — mirrors the numbered PAGE STRUCTURE in releasepage-prompt-code.md.
-// Fill in per-client copy, media and layout here.
+// NeighbourhoodAmenities — four panels, client-supplied photos. Optional,
+// renders only when selected.
+import { Image } from 'astro:assets';
+import golfCourse from '../../assets/images/amenities/golf-course.jpg';
+import conservationPark from '../../assets/images/amenities/conservation-park.jpg';
+import highSchool from '../../assets/images/amenities/high-school.jpg';
+import mall from '../../assets/images/amenities/mall.jpg';
+
+const amenities = [
+  {
+    image: golfCourse,
+    alt: 'Pacific Fairway Golf Course',
+    name: 'Pacific Fairway Golf Course',
+    copy: 'Championship-style course moments from home, perfect for weekend rounds.',
+  },
+  {
+    image: conservationPark,
+    alt: 'Springwood Conservation Park',
+    name: 'Springwood Conservation Park',
+    copy: 'Green space and walking trails right on the doorstep.',
+  },
+  {
+    image: highSchool,
+    alt: 'Springwood State High School',
+    name: 'Springwood State High School',
+    copy: 'Zoned local high school.',
+  },
+  {
+    image: mall,
+    alt: 'Springwood Mall',
+    name: 'Springwood Mall',
+    copy: 'Everyday shopping and dining, just a short drive away.',
+  },
+];
 ---
-<section id="neighbourhoodamenities" class="w-full">
-  <!-- NeighbourhoodAmenities content -->
+
+<section id="neighbourhood-amenities" class="amenities w-full" data-reveal-group>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow on-light">Neighbourhood</span>
+      <h2>Everything nearby, nothing crowded.</h2>
+    </div>
+    <div class="amenity-grid">
+      {amenities.map((a) => (
+        <div class="amenity reveal">
+          <div class="plate plate-amenity">
+            <div class="plate-corner"></div>
+            <Image src={a.image} alt={a.alt} width={700} height={560} loading="lazy" />
+          </div>
+          <h3>{a.name}</h3>
+          <p>{a.copy}</p>
+        </div>
+      ))}
+    </div>
+  </div>
 </section>
+
+<style>
+  .amenities {
+    background: var(--color-bg-alt);
+  }
+  .amenity-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+  }
+  @media (max-width: 960px) {
+    .amenity-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .amenity-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .amenity h3 {
+    font-size: 17px;
+    margin-top: 16px;
+    display: inline-block;
+    position: relative;
+  }
+  .amenity h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 1.5px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease, ease);
+  }
+  .amenity:hover h3::after {
+    transform: scaleX(1);
+  }
+  .amenity p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--color-text);
+    opacity: 0.88;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .amenity h3::after {
+      transition: none;
+    }
+  }
+  .plate-amenity {
+    aspect-ratio: 5 / 4;
+  }
+</style>

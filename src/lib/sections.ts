@@ -102,7 +102,14 @@ export const BESPOKE_ONLY: readonly OptionalSection[] = ['interactive-masterplan
  *     'gallery',
  *   ];
  */
-export const SELECTED_SECTIONS: readonly OptionalSection[] = [];
+export const SELECTED_SECTIONS: readonly OptionalSection[] = [
+  'key-stats',
+  'location-highlights',
+  'neighbourhood-amenities',
+  'interactive-masterplan',
+  'faqs',
+  'gallery',
+];
 
 /**
  * The sections to render, in canonical order: the four standard ones plus

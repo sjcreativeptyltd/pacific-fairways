@@ -1,7 +1,45 @@
 ---
-// LotStageDetail — mirrors the numbered PAGE STRUCTURE in releasepage-prompt-code.md.
-// Fill in per-client copy, media and layout here.
+// LotStageDetail — price/size/availability copy + CTA. Standard section,
+// always rendered. Pairs with the masterplan slot above it (Masterplan.astro
+// or InteractiveMasterplan.astro), whichever the client selected.
 ---
-<section id="lotstagedetail" class="w-full">
-  <!-- LotStageDetail content -->
+
+<section id="lot-stage-detail" class="lots w-full" data-reveal-group>
+  <div class="wrap lots-inner">
+    <div class="lots-copy reveal">
+      <span class="eyebrow on-light">Lot &amp; Stage Detail</span>
+      <h2>A one-off release. Once it's gone, it's gone.</h2>
+      <p>
+        With only 20 lots available in this one-off release, Pacific Fairways
+        won't be repeated. Lots start from $1.2m and range across generous
+        1,000m² blocks — register your interest today to secure your place in
+        this exclusive Springwood community.
+      </p>
+      <div class="lots-actions">
+        <a class="btn btn-solid" href="#enquire-footer">Enquire About Availability</a>
+      </div>
+    </div>
+  </div>
 </section>
+
+<style>
+  .lots {
+    background: var(--color-bg);
+  }
+  .lots-inner {
+    max-width: 720px;
+  }
+  .lots-copy h2 {
+    font-size: clamp(26px, 3.2vw, 34px);
+    margin-top: 12px;
+  }
+  .lots-copy p {
+    margin-top: 20px;
+    font-size: 16.5px;
+    line-height: 1.75;
+    max-width: 50ch;
+  }
+  .lots-actions {
+    margin-top: 30px;
+  }
+</style>

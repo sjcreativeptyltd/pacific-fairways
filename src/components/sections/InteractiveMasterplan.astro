@@ -1,10 +1,178 @@
 ---
-// Interactive Masterplan — optional, Bespoke tier only, renders when selected
-// in Q1 Field 9. Clickable lot map with pop-up detail per lot. Occupies the same
-// slot as Masterplan.astro; never both on one page.
-// Structure per 0-Style Guides/0-releasepage-prompt-design-styles.md.
-// Fill in per-client lot data, hotspots and pop-up detail here.
+// Interactive Masterplan — Bespoke tier, occupies the same slot as
+// Masterplan.astro (never both). Clickable lot map with hover/tap/keyboard
+// detail readout. Lot geometry is generated client-side (see script below);
+// swap for the client's real survey once supplied.
 ---
-<section id="interactivemasterplan" class="w-full">
-  <!-- Interactive masterplan: lot hotspots over the stage map, detail card per lot -->
+
+<section id="interactive-masterplan" class="masterplan-section w-full" data-reveal-group>
+  <div class="wrap">
+    <div class="masterplan reveal">
+      <div class="masterplan-head">
+        <span class="eyebrow on-dark">Indicative Masterplan</span>
+        <span class="masterplan-readout" id="lotReadout">Hover, tap, or tab a lot</span>
+      </div>
+      <div class="masterplan-scroll">
+        <svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" id="masterplanSvg">
+          <rect x="0" y="0" width="560" height="400" fill="none"/>
+          <path d="M0,60 C140,40 420,40 560,64" stroke="var(--color-hairline-dark, #8f8664)" stroke-width="10" fill="none" opacity="0.35"/>
+          <path d="M0,80 C160,140 400,150 560,95 L560,190 L0,190 Z" fill="var(--color-primary)" opacity="0.5"/>
+          <text x="440" y="115" fill="var(--color-on-ink, #fff)" font-family="var(--font-display)" font-size="12" opacity="0.6">FAIRWAY</text>
+          <path d="M20,190 L540,190" stroke="var(--color-hairline-dark, #6b6a4d)" stroke-width="14" opacity="0.55"/>
+          <path d="M20,190 L540,190" stroke="var(--color-accent-light, var(--color-accent))" stroke-width="1.4" stroke-dasharray="10 8" opacity="0.7"/>
+          <text x="20" y="204" fill="var(--color-accent-light, var(--color-accent))" font-family="var(--font-mono, monospace)" font-size="9.5" letter-spacing="1.5" opacity="0.8">ESTATE ROAD</text>
+          <g id="lotsRow1"></g>
+          <g id="lotsRow2"></g>
+        </svg>
+      </div>
+      <p class="masterplan-swipe-hint">&larr; SWIPE TO EXPLORE LOTS &rarr;</p>
+      <p class="masterplan-foot">Hover, tap, or keyboard-focus a lot for its number and size. Final stage plan subject to survey.</p>
+    </div>
+  </div>
 </section>
+
+<style>
+  .masterplan-section {
+    background: var(--color-bg);
+  }
+  .masterplan {
+    background: var(--color-ink, var(--color-primary));
+    border-radius: var(--radius-btn);
+    box-shadow: var(--shadow-plate, 0 18px 40px -20px rgba(0, 0, 0, 0.35));
+    padding: 22px 22px 18px;
+    min-width: 0; /* grid items default to min-width:auto, which would let the
+      fixed-width masterplan svg blow the whole page out horizontally */
+  }
+  .masterplan-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .masterplan-head .eyebrow {
+    margin: 0;
+  }
+  .masterplan-readout {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 12.5px;
+    color: var(--color-on-ink, #fff);
+    letter-spacing: 0;
+    min-height: 18px;
+  }
+  .masterplan-readout :global(b) {
+    color: var(--color-accent-light, var(--color-accent));
+    font-weight: 600;
+  }
+  .masterplan-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .masterplan svg {
+    width: 560px;
+    max-width: none;
+    height: auto;
+    display: block;
+  }
+  @media (min-width: 640px) {
+    .masterplan svg {
+      width: 100%;
+    }
+  }
+  .masterplan-swipe-hint {
+    display: none;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-light, var(--color-accent));
+    opacity: 0.7;
+    margin-top: 10px;
+  }
+  @media (max-width: 639px) {
+    .masterplan-swipe-hint {
+      display: block;
+    }
+  }
+  .masterplan :global(.lot-rect) {
+    fill: color-mix(in srgb, var(--color-on-ink, #fff) 20%, var(--color-primary));
+    stroke: rgba(255, 255, 255, 0.35);
+    stroke-width: 1.4;
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: fill 0.15s ease, transform 0.25s var(--ease, ease);
+  }
+  .masterplan :global(.lot-rect:hover),
+  .masterplan :global(.lot-rect:focus) {
+    fill: var(--color-accent-light, var(--color-accent));
+    outline: none;
+    transform: scale(1.08);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .masterplan :global(.lot-rect) {
+      transition: none;
+    }
+    .masterplan :global(.lot-rect:hover),
+    .masterplan :global(.lot-rect:focus) {
+      transform: none;
+    }
+  }
+  .masterplan-foot {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--color-on-ink, #fff);
+    opacity: 0.55;
+    letter-spacing: 0.03em;
+  }
+</style>
+
+<script>
+  (function () {
+    const row1 = document.getElementById('lotsRow1');
+    const row2 = document.getElementById('lotsRow2');
+    const readout = document.getElementById('lotReadout');
+    if (!row1 || !row2 || !readout) return;
+
+    const lotW = 46,
+      lotGap = 8,
+      startX = 22,
+      size = '1,000m²';
+    const topY = 210,
+      lotH = 90,
+      botH = 30;
+
+    function makeLot(x: number, y: number, w: number, h: number, n: number) {
+      const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      r.setAttribute('x', String(x));
+      r.setAttribute('y', String(y));
+      r.setAttribute('width', String(w));
+      r.setAttribute('height', String(h));
+      r.setAttribute('class', 'lot-rect');
+      r.setAttribute('tabindex', '0');
+      r.setAttribute('role', 'button');
+      r.setAttribute('aria-label', `Lot ${n}, ${size}`);
+      const show = () => {
+        readout!.innerHTML = `<b>Lot ${n}</b> · ${size}`;
+      };
+      r.addEventListener('mouseenter', show);
+      r.addEventListener('focus', show);
+      r.addEventListener('click', show);
+      r.addEventListener('mouseleave', () => {
+        readout!.textContent = 'Hover, tap, or tab a lot';
+      });
+      r.addEventListener('blur', () => {
+        readout!.textContent = 'Hover, tap, or tab a lot';
+      });
+      return r;
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const x = startX + i * (lotW + lotGap);
+      row1.appendChild(makeLot(x, topY, lotW, lotH, i + 1));
+    }
+    for (let j = 0; j < 10; j++) {
+      const x2 = startX + j * (lotW + lotGap);
+      row2.appendChild(makeLot(x2, 350, lotW, botH, j + 11));
+    }
+  })();
+</script>
