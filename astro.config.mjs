@@ -87,7 +87,8 @@ function walk_dirs(d) {
 // Per-client config: update `site` to the client's domain before deploy.
 // Typography and palette come from ACTIVE_STYLE in src/lib/styles.ts.
 export default defineConfig({
-  site: 'https://example-client.releasepage.com.au',
+  // TODO: swap for the real production domain once Cloudflare Pages / DNS is set up.
+  site: 'https://pacific-fairways.releasepage.com.au',
   integrations: [
     tailwind({
       applyBaseStyles: false, // global.css owns base styles

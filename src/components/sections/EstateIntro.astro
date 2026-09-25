@@ -1,7 +1,63 @@
 ---
-// EstateIntro — mirrors the numbered PAGE STRUCTURE in releasepage-prompt-code.md.
-// Fill in per-client copy, media and layout here.
+// EstateIntro — 2-column layout: headline + intro copy left, supporting
+// image right. Standard section, always rendered.
 ---
-<section id="estateintro" class="w-full">
-  <!-- EstateIntro content -->
+
+<section id="estate-intro" class="intro w-full" data-reveal-group>
+  <div class="wrap intro-grid">
+    <div class="intro-copy reveal">
+      <span class="eyebrow on-light">The Release</span>
+      <h2>A boutique release of twenty.</h2>
+      <p>
+        Pacific Fairways is a boutique release of just 20 acreage-style lots
+        in Springwood, offering the rare combination of space and convenience
+        only 22km from Brisbane CBD. Set alongside Pacific Fairway Golf
+        Course, it's built for buyers who want room to breathe without giving
+        up city access. With generous 1,000m² lots, it's ideal for lifestyle
+        seekers and those looking to build their forever home.
+      </p>
+      <div class="intro-actions">
+        <a class="btn btn-outline-light btn-sm" href="#lot-stage-detail">View Available Lots</a>
+      </div>
+    </div>
+    <div class="plate hatch plate-intro reveal">
+      <div class="plate-corner"></div>
+      <span class="plate-tag">Plate 01 — Estate Aerial · Pending</span>
+    </div>
+  </div>
 </section>
+
+<style>
+  .intro {
+    background: var(--color-bg-alt);
+  }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  .intro-copy h2 {
+    font-size: clamp(26px, 3.2vw, 34px);
+    margin-top: 12px;
+  }
+  .intro-copy p {
+    margin-top: 22px;
+    font-size: 16.5px;
+    line-height: 1.75;
+    max-width: 52ch;
+    color: var(--color-text);
+  }
+  .intro-actions {
+    margin-top: 30px;
+  }
+  .plate-intro {
+    aspect-ratio: 4 / 5;
+  }
+</style>

@@ -34,18 +34,26 @@ const css = `${fontFaceCss(style)}\n${tokenCss(style)}`;
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
 
-    {/* Preload the two faces actually used, so first paint is not delayed by
-        the round trip that discovering them in CSS would otherwise cost. */}
-    {[style.display, style.body].map((f) =>
-      f.files.map(({ file }) => (
-        <link
-          rel="preload"
-          href={`/fonts/${f.dir}/Fonts/WEB/fonts/${file}.woff2`}
-          as="font"
-          type="font/woff2"
-          crossorigin
-        />
-      )),
+    {style.googleFontsHref ? (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href={style.googleFontsHref} />
+      </>
+    ) : (
+      /* Preload the two faces actually used, so first paint is not delayed by
+         the round trip that discovering them in CSS would otherwise cost. */
+      [style.display, style.body].map((f) =>
+        f.files.map(({ file }) => (
+          <link
+            rel="preload"
+            href={`/fonts/${f.dir}/Fonts/WEB/fonts/${file}.woff2`}
+            as="font"
+            type="font/woff2"
+            crossorigin
+          />
+        )),
+      )
     )}
 
     <style set:html={css}></style>
@@ -55,7 +63,11 @@ const css = `${fontFaceCss(style)}\n${tokenCss(style)}`;
 
     <script>
       import { initLenis } from '../lib/lenis';
+      import { initReveal } from '../lib/reveal';
+      import { initCursorHalo } from '../lib/cursorHalo';
       initLenis();
+      initReveal();
+      initCursorHalo();
     </script>
   </body>
 </html>

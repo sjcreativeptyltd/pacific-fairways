@@ -50,6 +50,23 @@ export interface StylePreset {
   };
   /** Border radius the style's buttons use, as a CSS length. */
   radius: string;
+  /**
+   * Extra derived CSS custom properties a style's components rely on beyond
+   * the five standard tokens (tint/shade variants, dark-background text,
+   * hairlines). Emitted verbatim as `--NAME:value;` pairs alongside the
+   * standard tokens. Only Pacific Fairways' approved brand needs this — the
+   * ten generic presets get by on the five standard tokens alone.
+   */
+  extraTokens?: Record<string, string>;
+  /**
+   * Google Fonts stylesheet URL to load instead of self-hosting `display`/
+   * `body`. Only set for a client whose brand was already approved with
+   * specific Google Fonts (e.g. delivered first as an HTML mockup) rather
+   * than picked from the ten self-hosted systems below. When set,
+   * fontFaceCss/BaseLayout skip the self-hosted @font-face + preload path
+   * entirely for this style.
+   */
+  googleFontsHref?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -210,6 +227,51 @@ export const STYLES: Record<number, StylePreset> = {
     colors: { primary: '#1B4B6B', accent: '#62B6CB', bg: '#FFFFFF', bg2: '#F0F7FA', text: '#1A2A35' },
     radius: '6px',
   },
+
+  // Client's own pre-approved brand — not one of the ten style systems.
+  // Fonts are Google-hosted (see googleFontsHref) rather than self-hosted
+  // Fontshare families, so `files` below is unused for display/body.
+  11: {
+    id: 11,
+    name: 'Pacific Fairways (client brand)',
+    market: 'Acreage lot release — Springwood, QLD',
+    tone: 'Grounded, unhurried, quietly expensive — the land is the product',
+    display: {
+      family: 'Cinzel',
+      dir: '',
+      files: [],
+      range: '400 700',
+      fallback: 'serif',
+    },
+    body: {
+      family: 'Josefin Sans',
+      dir: '',
+      files: [],
+      range: '300 700',
+      fallback: 'sans-serif',
+    },
+    colors: {
+      primary: '#454539', // Volcanic Stone Green
+      accent: '#D79669', // Folksy Gold
+      bg: '#F6CEAC', // Allspice
+      bg2: '#fbf1e2', // cream — alternating band ground
+      text: '#454539', // body copy reads in the same ink as headings
+    },
+    radius: '2px',
+    googleFontsHref:
+      'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap',
+    extraTokens: {
+      'color-ink': '#302f28', // deeper shade of primary — dark bands (stats/footer), hover-darken
+      'color-accent-light': '#e3b98c', // lighter gold — accents/icons on dark backgrounds
+      'color-paper': '#fffcf6', // lightest surface, hover ground
+      'color-on-ink': '#fffbf3', // warm-white text on dark backgrounds
+      'color-hairline': '#e2c39c', // hairline on light backgrounds
+      'color-hairline-dark': '#54523f', // hairline on dark backgrounds
+      'font-mono': "'JetBrains Mono','SF Mono',Menlo,Consolas,monospace", // numerals: stat band, masterplan readout
+      'shadow-plate': '0 18px 40px -20px rgba(48,47,40,.35)',
+      ease: 'cubic-bezier(.16,1,.3,1)',
+    },
+  },
 };
 
 /**
@@ -217,13 +279,14 @@ export const STYLES: Record<number, StylePreset> = {
  * In dev you can override it per request with `?style=N` (see BaseLayout) to
  * compare directions without editing the file.
  */
-export const ACTIVE_STYLE = 3;
+export const ACTIVE_STYLE = 11;
 
 export const getStyle = (id: number = ACTIVE_STYLE): StylePreset =>
   STYLES[id] ?? STYLES[ACTIVE_STYLE];
 
 /** `@font-face` rules for one style's two families. */
 export function fontFaceCss(style: StylePreset): string {
+  if (style.googleFontsHref) return ''; // loaded via <link> instead — see BaseLayout
   return [style.display, style.body]
     .flatMap((f) =>
       f.files.map(
@@ -239,6 +302,11 @@ export function fontFaceCss(style: StylePreset): string {
 /** Design tokens for one style, as a `:root` block. */
 export function tokenCss(style: StylePreset): string {
   const { colors: c } = style;
+  const extra = style.extraTokens
+    ? Object.entries(style.extraTokens)
+        .map(([k, v]) => `--${k}:${v};`)
+        .join('')
+    : '';
   return (
     `:root{` +
     `--font-display:'${style.display.family}',${style.display.fallback};` +
@@ -249,6 +317,7 @@ export function tokenCss(style: StylePreset): string {
     `--color-bg-alt:${c.bg2};` +
     `--color-text:${c.text};` +
     `--radius-btn:${style.radius};` +
+    extra +
     `}`
   );
 }
