@@ -1,8 +1,89 @@
 ---
-// How to Buy — optional, renders only when selected in Q1 Field 9.
-// Structure per 0-Style Guides/0-releasepage-prompt-design-styles.md.
-// Fill in per-client steps here.
+// How to Buy — optional, renders only when selected. Centred 3-step
+// sequence per the brief: number + label + one-line description, CTA below.
+const steps = [
+  {
+    label: 'Select your lot',
+    copy: 'Choose from the available lots with help from our sales team.',
+  },
+  {
+    label: 'Choose your lot',
+    copy: 'Walk through the available lots with our team.',
+  },
+  {
+    label: 'Find your lot',
+    copy: "Review what's available and pick your favourite.",
+  },
+];
 ---
-<section id="howtobuy" class="w-full">
-  <!-- How to Buy content: numbered step sequence, CTA below -->
+
+<section id="how-to-buy" class="how-to-buy w-full" data-reveal-group>
+  <div class="wrap">
+    <div class="section-head how-to-buy-head reveal">
+      <span class="eyebrow on-light">How to Buy</span>
+      <h2>Three steps to your lot.</h2>
+    </div>
+    <div class="steps">
+      {steps.map((s, i) => (
+        <div class="step reveal">
+          <span class="step-num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{s.label}</h3>
+          <p>{s.copy}</p>
+        </div>
+      ))}
+    </div>
+    <div class="how-to-buy-actions reveal">
+      <a class="btn btn-solid" href="#enquire-footer">Get Started</a>
+    </div>
+  </div>
 </section>
+
+<style>
+  .how-to-buy {
+    background: var(--color-bg-alt);
+  }
+  .how-to-buy-head {
+    text-align: center;
+    max-width: none;
+    margin-inline: auto;
+  }
+  .steps {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  @media (max-width: 760px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+  .step {
+    text-align: center;
+    padding-inline: 12px;
+  }
+  .step-num {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  .step h3 {
+    margin-top: 14px;
+    font-size: 20px;
+  }
+  .step p {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text);
+    opacity: 0.85;
+  }
+  .how-to-buy-actions {
+    margin-top: 48px;
+    display: flex;
+    justify-content: center;
+  }
+</style>

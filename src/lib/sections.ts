@@ -109,6 +109,7 @@ export const SELECTED_SECTIONS: readonly OptionalSection[] = [
   'interactive-masterplan',
   'faqs',
   'gallery',
+  'how-to-buy',
 ];
 
 /**

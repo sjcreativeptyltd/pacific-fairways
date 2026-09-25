@@ -49,6 +49,15 @@ import EnquiryForm from '../react/EnquiryForm';
   .enquire {
     background: var(--color-ink, var(--color-primary));
     color: var(--color-on-ink, var(--color-bg));
+    /* .enquire is a <footer>, not a <section> — the sitewide
+       `section{padding-block:88px}` rule in global.css doesn't reach it,
+       so without this it sits flush against whatever's above it. */
+    padding-block: 88px;
+  }
+  @media (max-width: 640px) {
+    .enquire {
+      padding-block: 60px;
+    }
   }
   .enquire-grid {
     display: grid;
